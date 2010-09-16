@@ -15,8 +15,9 @@ module FCG
         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client
+        # receiver.send :include, ActiveModel::Validations
         receiver.send :include, InstanceMethods
-        # receiver.include_root_in_json = false
+        receiver.include_root_in_json = false
       end
     end
   end
