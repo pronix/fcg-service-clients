@@ -1,17 +1,21 @@
 require 'rubygems'
 require 'rake'
+require "lib/fcg_service_clients/version"
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "fcg-service-clients"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A library of clients that interact with the FCG SOA}
+    gem.description = %Q{Clients/libraries that are used under site models to interact with FCG services}
     gem.email = "sam@fcgmedia.com"
     gem.homepage = "http://github.com/joemocha/fcg-service-clients"
     gem.authors = ["Samuel O. Obukwelu"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency 'fcg-service-ext', ">= 0.0.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.version = FCG::Client::VERSION
+    
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
