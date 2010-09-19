@@ -1,12 +1,11 @@
 require "rubygems"
-# require 'yajl'
-# require 'active_support/core_ext/hash/indifferent_access'
-# require 'active_model'
-# require 'typhoeus'
 require 'fcg-service-ext'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-require "fcg_service_clients/version"
-require "fcg_service_clients/activity"
-require "fcg_service_clients/user"
+# load all models + version.rb
+Dir[
+  File.expand_path("../fcg_service_clients/*.rb", __FILE__)
+].each do |file|
+  require file
+end

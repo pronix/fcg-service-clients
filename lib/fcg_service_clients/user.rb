@@ -69,7 +69,7 @@ module FCG
       end
 
       module InstanceMethods
-        def displayed_name
+        def display_name
           full_name || username
         end
 
@@ -105,10 +105,6 @@ module FCG
           !self.uploaded_photos_at.nil? and self.uploaded_photos_at != ""
         end
 
-        def twitter
-          @twitter ||= Twitter.by_user_id(self.id).first
-        end
-
         def uploadable_by_user?(user)
           return true if user.id == self.id
         end
@@ -119,7 +115,7 @@ module FCG
             :id             => self.id,
             :username       => self.username,
             :location       => self.location,
-            :displayed_name => self.displayed_name,
+            :display_name   => self.display_name,
             :profile_image  => self.profile_image
           }
         end
@@ -149,7 +145,6 @@ module FCG
         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client
-        # receiver.send :include, ActiveModel::Validations
         receiver.send :include, InstanceMethods
         receiver.send :include, FCG::UserIncludable
         receiver.include_root_in_json = false
