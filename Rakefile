@@ -12,10 +12,14 @@ begin
     gem.homepage = "http://github.com/joemocha/fcg-service-clients"
     gem.authors = ["Samuel O. Obukwelu"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency "json"
+    gem.add_dependency "yajl-ruby"
     gem.add_dependency 'fcg-service-ext', ">= 0.0.9"
+    gem.add_dependency 'activesupport', ">= 3.0.0"
+    gem.add_dependency 'activemodel', ">= 3.0.0"
+    gem.add_dependency 'typhoeus', ">= 0.1.31"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.version = FCG::Client::VERSION
-    
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
