@@ -24,8 +24,10 @@ Gem::Specification.new do |s|
      "Rakefile",
      "fcg-service-clients.gemspec",
      "lib/fcg-service-clients.rb",
-     "lib/fcg_service_clients/activity.rb",
-     "lib/fcg_service_clients/user.rb",
+     "lib/fcg_service_clients/cattr_inheritable_attrs.rb",
+     "lib/fcg_service_clients/client.rb",
+     "lib/fcg_service_clients/models/activity.rb",
+     "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/version.rb",
      "spec/fcg-service-clients_spec.rb",
      "spec/spec.opts",
@@ -47,14 +49,29 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_runtime_dependency(%q<json>, [">= 0"])
+      s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
+      s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
+      s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_dependency(%q<json>, [">= 0"])
+      s.add_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+      s.add_dependency(%q<activesupport>, [">= 3.0.0"])
+      s.add_dependency(%q<activemodel>, [">= 3.0.0"])
+      s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
+    s.add_dependency(%q<json>, [">= 0"])
+    s.add_dependency(%q<yajl-ruby>, [">= 0"])
     s.add_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+    s.add_dependency(%q<activesupport>, [">= 3.0.0"])
+    s.add_dependency(%q<activemodel>, [">= 3.0.0"])
+    s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
   end
 end
 

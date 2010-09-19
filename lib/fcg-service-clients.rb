@@ -13,8 +13,6 @@ Dir[
   require file
 end
 __END__
-HYDRA = Typhoeus::Hydra.new
-
 class Run
   ATTRIBUTES = [:id, :bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, 
     :facebook_id, :facebook_proxy_email, :facebook_session, :flags, :flyers, :last_visited_at, 
@@ -23,7 +21,7 @@ class Run
     :twitter_username, :updated_at, :uploaded_photos_at, :username, :web]
   attr_accessor *ATTRIBUTES
   include FCG::Client
-  setup_service :model => "users", :hydra => HYDRA, :host => "http://127.0.0.1:8081", :version => "v1"
+  setup_service :model => "users", :hydra => FCG::Client::HYDRA, :host => "http://127.0.0.1:8081", :version => "v1"
   before_save :pring
   
   def pring

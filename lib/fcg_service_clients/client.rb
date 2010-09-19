@@ -1,6 +1,6 @@
 module FCG
-  HYDRA = Typhoeus::Hydra.new
   module Client
+    HYDRA = Typhoeus::Hydra.new
     module ClassMethods
       def create(record)
         Typhoeus::Request.new(
