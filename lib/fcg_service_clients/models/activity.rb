@@ -1,10 +1,10 @@
 module FCG
   module Client
     module Activity
-      ATTRIBUTES = [:actor, :created_at, :extra, :id, :object, :site, :summary, :target, :title, :verb]
+      ATTRIBUTES = [:actor, :created_at, :extra, :id, :object, :site, :summary, :target, :title, :verb, :visible]
 
       module ClassMethods
-
+        
       end
 
       module InstanceMethods
@@ -39,6 +39,19 @@ module FCG
           end
         end
         
+        def generate_stats
+          if self.verb.to_sym == :view
+            save_asynchronous
+          end
+        end
+        
+        def save_asynchronous
+          unless @queue
+            @queue = self.class.async_client.queue("stats", :durable => :false)
+          end
+          @queue.publish(to_json)
+        end
+        
         private
         def handle_title
           Proc.new{|col| col['title'] || col['name'] || col['display_name'] }
@@ -54,6 +67,7 @@ module FCG
         receiver.validates_presence_of :actor, :object, :verb
         receiver.validates_inclusion_of :verb, :in => FCG::ACTIVITY::VERBS::ALL.keys.map(&:to_s)
         receiver.before_save :create_title, :create_summary
+        receiver.after_create :generate_stats
       end
     end
   end

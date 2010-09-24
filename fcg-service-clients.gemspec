@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fcg-service-clients}
-  s.version = "0.0.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2010-09-19}
+  s.date = %q{2010-09-23}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -51,7 +51,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])
-      s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+      s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
@@ -59,7 +59,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<yajl-ruby>, [">= 0"])
-      s.add_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+      s.add_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
@@ -68,7 +68,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<yajl-ruby>, [">= 0"])
-    s.add_dependency(%q<fcg-service-ext>, [">= 0.0.9"])
+    s.add_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
     s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<activemodel>, [">= 3.0.0"])
     s.add_dependency(%q<typhoeus>, [">= 0.1.31"])

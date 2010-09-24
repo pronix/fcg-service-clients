@@ -5,7 +5,7 @@ module FCG
       def create(record)
         Typhoeus::Request.new(
           "#{self.host}/api/#{self.version}/#{self.model}",
-          :method => :post, :body => record.to_json)
+          :method => :post, :body => record.to_json(:except => [:id, :created_at, :updated_at]))
       end
 
       def update(record)

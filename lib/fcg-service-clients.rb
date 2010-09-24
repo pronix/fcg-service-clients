@@ -2,6 +2,9 @@ require "rubygems"
 require "active_model"
 require "active_support"
 require "typhoeus"
+require 'json'
+require 'yajl'
+require 'yajl/json_gem'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
