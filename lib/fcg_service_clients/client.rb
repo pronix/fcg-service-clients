@@ -84,7 +84,7 @@ module FCG
     module InstanceMethods
       def initialize(attributes_or_json = {})
         from_json(attributes_or_json) if attributes_or_json.is_a? String
-        self.attributes = attributes_or_json.respond_to?(:with_indifferent_access) ? attributes_or_json.with_indifferent_access : attributes_or_json
+        self.attributes = attributes_or_json.respond_to?(:to_mash) ? attributes_or_json.to_mash : attributes_or_json
         @errors = ActiveModel::Errors.new(self)
         @new_record = (self.id.nil? ? true :false)
         @_destroyed = false
@@ -92,7 +92,7 @@ module FCG
       end
 
       def attributes
-        self.class.attributes.inject(ActiveSupport::HashWithIndifferentAccess.new) do |result, key|
+        self.class.attributes.inject(Hashie::Mash.new) do |result, key|
           result[key] = read_attribute_for_validation(key)
           result
         end
@@ -169,7 +169,7 @@ module FCG
         case response.code
         when 200
           attributes_as_json = JSON.parse(response.body)
-          self.attributes = attributes_as_json.respond_to?(:with_indifferent_access) ? attributes_as_json.with_indifferent_access : attributes_as_json
+          self.attributes = attributes_as_json.respond_to?(:to_mash) ? attributes_as_json.to_mash : attributes_as_json
           true
         when 400
           response_body_parsed = JSON.parse(response.body)

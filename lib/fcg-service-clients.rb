@@ -3,8 +3,9 @@ require "active_model"
 require "active_support"
 require "typhoeus"
 require 'json'
-require 'yajl'
 require 'yajl/json_gem'
+require 'hashie'
+include Hashie::HashExtensions
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
@@ -15,6 +16,7 @@ Dir[
 ].each do |file|
   require file
 end
+
 __END__
 class Run
   ATTRIBUTES = [:id, :bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, 

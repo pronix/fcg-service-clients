@@ -18,6 +18,7 @@ begin
     gem.add_dependency 'activesupport', ">= 3.0.0"
     gem.add_dependency 'activemodel', ">= 3.0.0"
     gem.add_dependency 'typhoeus', ">= 0.1.31"
+    gem.add_dependency 'hashie', ">= 0.4.0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.version = FCG::Client::VERSION
   end

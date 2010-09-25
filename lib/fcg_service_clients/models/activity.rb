@@ -39,17 +39,23 @@ module FCG
           end
         end
         
-        def generate_stats
-          if self.verb.to_sym == :view
-            save_asynchronous
+        def save(*)
+          if valid?
+            _run_save_callbacks do
+              unless self.verb.to_sym == :view
+                return super
+              end
+              if self.class.async_client
+                unless @queue
+                  @queue = self.class.async_client.queue("stat_collector", :durable => false)
+                end
+                @queue.publish(to_json)
+              end
+              true
+            end
+          else
+            false
           end
-        end
-        
-        def save_asynchronous
-          unless @queue
-            @queue = self.class.async_client.queue("stats", :durable => :false)
-          end
-          @queue.publish(to_json)
         end
         
         private
@@ -67,7 +73,6 @@ module FCG
         receiver.validates_presence_of :actor, :object, :verb
         receiver.validates_inclusion_of :verb, :in => FCG::ACTIVITY::VERBS::ALL.keys.map(&:to_s)
         receiver.before_save :create_title, :create_summary
-        receiver.after_create :generate_stats
       end
     end
   end
