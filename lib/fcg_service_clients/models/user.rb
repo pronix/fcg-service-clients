@@ -10,7 +10,7 @@ module FCG
       module ClassMethods
         def find_by_facebook_id(facebook_id)
           request = Typhoeus::Request.new(
-            "#{self.host}/api/#{self.version}/#{self.model}/find_by_facebook_id/#{facebook_id}",
+            "#{self.service_url}/find_by_facebook_id/#{facebook_id}",
             :method => :get)
 
           request.on_complete do |response|
@@ -25,7 +25,7 @@ module FCG
 
         def find_by_username(username)
           request = Typhoeus::Request.new(
-            "#{self.host}/api/#{self.version}/#{self.model}/find_by_username/#{username}",
+            "#{self.service_url}/find_by_username/#{username}",
             :method => :get)
 
           request.on_complete do |response|
@@ -40,7 +40,7 @@ module FCG
 
         def find_by_email(email)
           request = Typhoeus::Request.new(
-            "#{self.host}/api/#{self.version}/#{self.model}/find_by_email/#{email}",
+            "#{self.service_url}/find_by_email/#{email}",
             :method => :get)
 
           request.on_complete do |response|
@@ -144,7 +144,7 @@ module FCG
       def self.included(receiver)
         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
-        receiver.send :include, FCG::Client
+        receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
         receiver.send :include, FCG::UserIncludable
         receiver.include_root_in_json = false

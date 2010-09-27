@@ -12,6 +12,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 # load all models + version.rb
 Dir[
   File.expand_path("../fcg_service_clients/*.rb", __FILE__),
+  File.expand_path("../fcg_service_clients/client/*.rb", __FILE__),
   File.expand_path("../fcg_service_clients/models/*.rb", __FILE__)
 ].each do |file|
   require file
@@ -25,8 +26,8 @@ class Run
     :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, 
     :twitter_username, :updated_at, :uploaded_photos_at, :username, :web]
   attr_accessor *ATTRIBUTES
-  include FCG::Client
-  setup_service :model => "users", :hydra => FCG::Client::HYDRA, :host => "http://127.0.0.1:8081", :version => "v1"
+  include FCG::Client::Persistence
+  setup_service :model => "users", :hydra => FCG::Client::HYDRA, :host => "http://127.0.0.1:5678", :version => "v1"
   before_save :pring
   
   def pring
@@ -39,4 +40,3 @@ end
   t = Run.find("4c401627ff808d982a00000b")
   puts t.inspect
 end
-# puts Run.column_names
