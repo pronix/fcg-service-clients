@@ -6,7 +6,8 @@ module FCG
         def handle_service_response(response)
           case response.code
           when 200
-            Hashie::Mash.new(JSON.parse(response.body))
+            result = JSON.parse(response.body)
+            result.respond_to?(:keys) ? Hashie::Mash.new(result) : result
           when 400
             {
               :error => {

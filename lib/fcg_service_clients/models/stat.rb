@@ -6,7 +6,25 @@ module FCG
           # "/:verb/:key/:time"
           verb = "view"
           request = Typhoeus::Request.new(
-            "#{self.service_url}/#{verb}/#{key}/#{time}",
+            "#{service_url}/#{verb}/#{key}/#{time}",
+            :method => :get)
+          
+          request.on_complete do |response|
+            handle_service_response(response)
+          end
+
+          hydra.queue(request)
+          hydra.run
+
+          request.handled_response
+        end
+      
+        def top_views(rankable_key, model, time)
+          # /rank/:verb/:rankable_key/:model/:time
+          # /rank/view/citycode:nyc/image/20100926 returns top images limited to nyc from Sept 26, 2010
+          verb = "view"
+          request = Typhoeus::Request.new(
+            "#{self.service_url}/rank/#{verb}/#{rankable_key}/#{model}/#{time}",
             :method => :get)
 
           request.on_complete do |response|
@@ -19,10 +37,10 @@ module FCG
           request.handled_response
         end
       end
-
+      
       def self.included(receiver)
+        receiver.send :include, FCG::Client::Base
         receiver.extend         ClassMethods
-        receiver.send :include, FCG::Client::Fetcher
       end
     end
   end
