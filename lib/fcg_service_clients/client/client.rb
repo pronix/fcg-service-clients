@@ -1,7 +1,7 @@
 module FCG
   module Client
-    HYDRA = Typhoeus::Hydra.new
     module Base
+      HYDRA = Typhoeus::Hydra.new
       module ClassMethods
         def handle_service_response(response)
           case response.code

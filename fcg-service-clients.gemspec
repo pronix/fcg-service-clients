@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2010-09-24}
+  s.date = %q{2010-10-11}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -25,8 +25,11 @@ Gem::Specification.new do |s|
      "fcg-service-clients.gemspec",
      "lib/fcg-service-clients.rb",
      "lib/fcg_service_clients/cattr_inheritable_attrs.rb",
-     "lib/fcg_service_clients/client.rb",
+     "lib/fcg_service_clients/client/client.rb",
+     "lib/fcg_service_clients/client/fetcher.rb",
+     "lib/fcg_service_clients/client/persistence.rb",
      "lib/fcg_service_clients/models/activity.rb",
+     "lib/fcg_service_clients/models/stat.rb",
      "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/version.rb",
      "spec/fcg-service-clients_spec.rb",
@@ -50,30 +53,30 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
-      s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
+      s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<hashie>, [">= 0.4.0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_dependency(%q<json>, [">= 0"])
-      s.add_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
+      s.add_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_dependency(%q<hashie>, [">= 0.4.0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
     s.add_dependency(%q<json>, [">= 0"])
-    s.add_dependency(%q<yajl-ruby>, [">= 0"])
     s.add_dependency(%q<fcg-service-ext>, [">= 0.0.10"])
     s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<activemodel>, [">= 3.0.0"])
     s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
+    s.add_dependency(%q<yajl-ruby>, [">= 0"])
     s.add_dependency(%q<hashie>, [">= 0.4.0"])
   end
 end
