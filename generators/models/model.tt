@@ -1,4 +1,4 @@
 class <%= klass %>
-  include FCG::Client::<%= klass %>
-  setup_service :hydra => FCG::Client::Base::HYDRA, :host => FCG_CONFIG.app.service_url, :version => "<%= version %>", :async_client => ASYNC_CLIENT  
+  include <%= client_class %>
+  setup_service :hydra => <%= options[:hydra] %>, :host => <%= options[:host] %>, :version => "<%= version %>", :async_client => <%= options[:async_client] %>
 end

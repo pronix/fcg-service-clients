@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2010-10-11}
+  s.date = %q{2010-10-12}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -23,18 +23,21 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "fcg-service-clients.gemspec",
+     "generators/models/model.tt",
      "lib/fcg-service-clients.rb",
      "lib/fcg_service_clients/cattr_inheritable_attrs.rb",
      "lib/fcg_service_clients/client/client.rb",
      "lib/fcg_service_clients/client/fetcher.rb",
      "lib/fcg_service_clients/client/persistence.rb",
      "lib/fcg_service_clients/models/activity.rb",
+     "lib/fcg_service_clients/models/event.rb",
      "lib/fcg_service_clients/models/stat.rb",
      "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/version.rb",
      "spec/fcg-service-clients_spec.rb",
      "spec/spec.opts",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "tasks/models.thor"
   ]
   s.homepage = %q{http://github.com/joemocha/fcg-service-clients}
   s.rdoc_options = ["--charset=UTF-8"]
