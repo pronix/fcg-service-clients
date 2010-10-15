@@ -1,18 +1,42 @@
+require "facets/uri"
+
 module FCG
   module Client
     module Base
       HYDRA = Typhoeus::Hydra.new
       module ClassMethods
+        def search(*args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :offset => 0
+          }.merge(opts)
+          
+          verb = "search"
+          request = Typhoeus::Request.new(
+            "#{service_url}/#{verb}?" + params.to_uri,
+            :method => :get)
+          
+          request.on_complete do |response|
+            handle_service_response(response)
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          request.handled_response
+        end
+        
         def handle_service_response(response)
           case response.code
           when 200
-            result = JSON.parse(response.body)
+            result = MessagePack.unpack(response.body)
             result.respond_to?(:keys) ? Hashie::Mash.new(result) : result
           when 400
             {
               :error => {
                 :http_code => response.code,
-                :http_response_body => JSON.parse(response.body)
+                :http_response_body => MessagePack.unpack(response.body)
               }
             }
             false

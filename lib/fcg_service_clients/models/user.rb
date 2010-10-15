@@ -126,7 +126,7 @@ module FCG
         #   unless @exchange
         #     @exchange = self.async_client.exchange("users", :type => :topic, :durable => :true)
         #   end
-        #   @exchange.publish(to_json, :key => vote)
+        #   @exchange.publish(to_msgpack, :key => vote)
         # end
 
         protected
@@ -147,7 +147,6 @@ module FCG
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
         receiver.send :include, FCG::UserIncludable
-        receiver.include_root_in_json = false
 
         receiver.validates_length_of :username, :within => 4..16
         receiver.validates_length_of :email, :within => 6..100

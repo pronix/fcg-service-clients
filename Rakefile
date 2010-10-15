@@ -5,20 +5,18 @@ require "lib/fcg_service_clients/version"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "fcg-service-clients"
-    gem.summary = %Q{A library of clients that interact with the FCG SOA}
-    gem.description = %Q{Clients/libraries that are used under site models to interact with FCG services}
-    gem.email = "sam@fcgmedia.com"
-    gem.homepage = "http://github.com/joemocha/fcg-service-clients"
-    gem.authors = ["Samuel O. Obukwelu"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_dependency "json"
+    gem.name            = "fcg-service-clients"
+    gem.summary         = %Q{A library of clients that interact with the FCG SOA}
+    gem.description     = %Q{Clients/libraries that are used under site models to interact with FCG services}
+    gem.email           = "sam@fcgmedia.com"
+    gem.homepage        = "http://github.com/joemocha/fcg-service-clients"
+    gem.authors         = ["Samuel O. Obukwelu"]
+    gem.add_development_dependency "rspec", ">= 1.3"
+    gem.add_dependency 'fcg-core-ext', ">= 0.0.5"
     gem.add_dependency 'fcg-service-ext', ">= 0.0.10"
     gem.add_dependency 'activesupport', ">= 3.0.0"
     gem.add_dependency 'activemodel', ">= 3.0.0"
     gem.add_dependency 'typhoeus', ">= 0.1.31"
-    gem.add_dependency "yajl-ruby"
-    gem.add_dependency 'hashie', ">= 0.4.0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.version = FCG::Client::VERSION
   end
@@ -51,4 +49,13 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "fcg-service-clients #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+require "bundler/version"
+# task :build do
+#   system "gem build fcg-service-clients.gemspec"
+# end
+ 
+task :release => :build do
+  system "gem push fcg-service-clients-#{FCG::Client::VERSION}"
 end

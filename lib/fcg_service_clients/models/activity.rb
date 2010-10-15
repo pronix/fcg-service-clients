@@ -49,7 +49,7 @@ module FCG
                 unless @queue
                   @queue = self.class.async_client.queue("stat_collector", :durable => false)
                 end
-                @queue.publish(to_json)
+                @queue.publish(to_msgpack)
               end
               true
             end
@@ -69,7 +69,6 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
-        receiver.include_root_in_json = false
         receiver.validates_presence_of :actor, :object, :verb
         receiver.validates_inclusion_of :verb, :in => FCG::ACTIVITY::VERBS::ALL.keys.map(&:to_s)
         receiver.before_save :create_title, :create_summary

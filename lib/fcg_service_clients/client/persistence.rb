@@ -5,13 +5,13 @@ module FCG
         def create(record)
           Typhoeus::Request.new(
             service_url,
-            :method => :post, :body => record.to_json(:except => [:id, :created_at, :updated_at]))
+            :method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
         end
 
         def update(record)
           Typhoeus::Request.new(
             "#{service_url}/#{record.id}",
-            :method => :put, :body => record.to_json)
+            :method => :put, :body => record.to_msgpack)
         end
 
         def find(id)
@@ -45,12 +45,12 @@ module FCG
         def handle_service_response(response)
           case response.code
           when 200
-            new(JSON.parse(response.body))
+            new(MessagePack.unpack(response.body))
           when 400
             {
               :error => {
                 :http_code => response.code,
-                :http_response_body => JSON.parse(response.body)
+                :http_response_body => MessagePack.unpack(response.body)
               }
             }
             false
@@ -71,9 +71,9 @@ module FCG
       end
 
       module InstanceMethods
-        def initialize(attributes_or_json = {})
-          from_json(attributes_or_json) if attributes_or_json.is_a? String
-          self.attributes = attributes_or_json.respond_to?(:to_mash) ? attributes_or_json.to_mash : attributes_or_json
+        def initialize(attributes_or_msgpack = {})
+          # from_json(attributes_or_json) if attributes_or_json.is_a? String
+          self.attributes = attributes_or_msgpack.respond_to?(:to_mash) ? attributes_or_msgpack.to_mash : attributes_or_msgpack
           @errors = ActiveModel::Errors.new(self)
           @new_record = (self.id.nil? ? true :false)
           @_destroyed = false
@@ -157,11 +157,11 @@ module FCG
         def handle_service_response(response)
           case response.code
           when 200
-            attributes_as_json = JSON.parse(response.body)
-            self.attributes = attributes_as_json.respond_to?(:to_mash) ? attributes_as_json.to_mash : attributes_as_json
+            attribute_as_msgpack = MessagePack.unpack(response.body)
+            self.attributes = attribute_as_msgpack.respond_to?(:to_mash) ? attribute_as_msgpack.to_mash : attribute_as_msgpack
             true
           when 400
-            response_body_parsed = JSON.parse(response.body)
+            response_body_parsed = MessagePack.unpack(response.body)
             response_body_parsed["errors"].each_pair do |key, values|
               values.compact.each{|value| errors.add(key.to_sym, value) }
             end

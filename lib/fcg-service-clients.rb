@@ -2,8 +2,7 @@ require "rubygems"
 require "active_model"
 require "active_support"
 require "typhoeus"
-require 'json'
-require 'yajl/json_gem'
+require 'msgpack'
 require 'hashie'
 include Hashie::HashExtensions
 
@@ -11,19 +10,21 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 # load all models + client files
 Dir[
+  File.expand_path("../fcg_service_clients/thor/*.rb", __FILE__),
   File.expand_path("../fcg_service_clients/*.rb", __FILE__),
   File.expand_path("../fcg_service_clients/client/*.rb", __FILE__),
   File.expand_path("../fcg_service_clients/models/*.rb", __FILE__)
 ].each do |file|
   require file
 end
-
 # __END__
-# 
-# class Stat
-#   include FCG::Client::Stat
-#   setup_service :model => "stats", :hydra => FCG::Client::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
-# end
+
+class Stat
+  include FCG::Client::Stat
+  setup_service :model => "stats", :hydra => FCG::Client::Base::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
+end
+
+
 # 
 # 1.upto(10).each do |i|
 #   puts "Pass ##{i}"
