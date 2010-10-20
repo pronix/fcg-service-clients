@@ -30,13 +30,13 @@ module FCG
             :method => :get)
 
           request.on_complete do |response|
-            handle_service_response(response)
+            response
           end
 
           self.hydra.queue(request)
           self.hydra.run
 
-          request.handled_response
+          handle_service_response request.handled_response
         end
         
         def most_visited(*args)
@@ -51,13 +51,13 @@ module FCG
             :method => :get)
 
           request.on_complete do |response|
-            handle_service_response(response)
+            response
           end
 
           self.hydra.queue(request)
           self.hydra.run
 
-          request.handled_response
+          handle_service_response request.handled_response
         end
       end
       

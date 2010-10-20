@@ -2,22 +2,60 @@ module FCG
   module Client
     module Persistence
       module ClassMethods
-        def find(id)
-          response = Typhoeus::Request.get("#{service_url}/#{id}")
-          handle_service_response(response)
-        end
-        
         def create(record)
-          Typhoeus::Request.post(service_url, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
+          request = Typhoeus::Request.new(
+            service_url,
+            :method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+          
+          request.handled_response
         end
 
         def update(record)
-          Typhoeus::Request.put("#{service_url}/#{record.id}", :body => record.to_msgpack)
+          request = Typhoeus::Request.new(
+            "#{service_url}/#{record.id}",
+            :method => :put, :body => record.to_msgpack)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+          
+          request.handled_response
+        end
+
+        def find(id)
+          request = Typhoeus::Request.new(
+            "#{service_url}/#{id}",
+            :method => :get)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
         end
 
         def delete(id)
-          response = Typhoeus::Request.delete("#{service_url}/#{id}")
-          handle_service_response(response)
+          request = Typhoeus::Request.new(
+            "#{service_url}/#{id}",
+            :method => :delete)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
         end
 
         def handle_service_response(response)
@@ -136,18 +174,14 @@ module FCG
 
         private
         def handle_service_response(response)
-          begin
-            response_unpacked = MessagePack.unpack(response.body)
-          rescue
-            log "response_unpacked error: " + response.body.inspect
-            response_unpacked = []
-          end
           case response.code
           when 200
-            self.attributes = response_unpacked
+            attribute_as_msgpack = MessagePack.unpack(response.body)
+            self.attributes = attribute_as_msgpack.respond_to?(:to_mash) ? attribute_as_msgpack.to_mash : attribute_as_msgpack
             true
           when 400..499
-            response_unpacked["errors"].each_pair do |key, values|
+            response_body_parsed = MessagePack.unpack(response.body)
+            response_body_parsed["errors"].each_pair do |key, values|
               values.compact.each{|value| errors.add(key.to_sym, value) }
             end
             false

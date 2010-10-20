@@ -14,13 +14,13 @@ module FCG
             :method => :get)
 
           request.on_complete do |response|
-            handle_service_response(response)
+            response
           end
 
           self.hydra.queue(request)
           self.hydra.run
 
-          request.handled_response
+          handle_service_response request.handled_response
         end
 
         def find_by_username(username)
@@ -29,13 +29,13 @@ module FCG
             :method => :get)
 
           request.on_complete do |response|
-            handle_service_response(response)
+            response
           end
 
           self.hydra.queue(request)
           self.hydra.run
 
-          request.handled_response
+          handle_service_response request.handled_response
         end
 
         def find_by_email(email)
@@ -44,13 +44,13 @@ module FCG
             :method => :get)
 
           request.on_complete do |response|
-            handle_service_response(response)
+            response
           end
 
           self.hydra.queue(request)
           self.hydra.run
 
-          request.handled_response
+          handle_service_response request.handled_response
         end
 
         def encrypt(password, salt)
