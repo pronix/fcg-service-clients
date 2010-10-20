@@ -2,58 +2,40 @@ module FCG
   module Client
     module Persistence
       module ClassMethods
+        def find(id)
+          response = Typhoeus::Request.get("#{service_url}/#{id}")
+          handle_service_response(response)
+        end
+        
         def create(record)
-          Typhoeus::Request.new(
-            service_url,
-            :method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
+          Typhoeus::Request.post(service_url, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
         end
 
         def update(record)
-          Typhoeus::Request.new(
-            "#{service_url}/#{record.id}",
-            :method => :put, :body => record.to_msgpack)
-        end
-
-        def find(id)
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{id}",
-            :method => :get)
-          request.on_complete do |response|
-            handle_service_response(response)
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
-          request.handled_response
+          Typhoeus::Request.put("#{service_url}/#{record.id}", :body => record.to_msgpack)
         end
 
         def delete(id)
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{id}",
-            :method => :delete)
-          request.on_complete do |response|
-            handle_service_response(response)
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
-          request.handled_response
+          response = Typhoeus::Request.delete("#{service_url}/#{id}")
+          handle_service_response(response)
         end
 
         def handle_service_response(response)
+          result = MessagePack.unpack(response.body)
           case response.code
           when 200
-            new(MessagePack.unpack(response.body))
+            if result.is_a? Array
+              result.map{|res| new(res) }
+            else
+              new(result)
+            end
           when 400
             {
               :error => {
                 :http_code => response.code,
-                :http_response_body => MessagePack.unpack(response.body)
+                :http_response_body => result
               }
             }
-            false
           end
         end
 
@@ -72,7 +54,6 @@ module FCG
 
       module InstanceMethods
         def initialize(attributes_or_msgpack = {})
-          # from_json(attributes_or_json) if attributes_or_json.is_a? String
           self.attributes = attributes_or_msgpack.respond_to?(:to_mash) ? attributes_or_msgpack.to_mash : attributes_or_msgpack
           @errors = ActiveModel::Errors.new(self)
           @new_record = (self.id.nil? ? true :false)
@@ -155,14 +136,18 @@ module FCG
 
         private
         def handle_service_response(response)
+          begin
+            response_unpacked = MessagePack.unpack(response.body)
+          rescue
+            log "response_unpacked error: " + response.body.inspect
+            response_unpacked = []
+          end
           case response.code
           when 200
-            attribute_as_msgpack = MessagePack.unpack(response.body)
-            self.attributes = attribute_as_msgpack.respond_to?(:to_mash) ? attribute_as_msgpack.to_mash : attribute_as_msgpack
+            self.attributes = response_unpacked
             true
-          when 400
-            response_body_parsed = MessagePack.unpack(response.body)
-            response_body_parsed["errors"].each_pair do |key, values|
+          when 400..499
+            response_unpacked["errors"].each_pair do |key, values|
               values.compact.each{|value| errors.add(key.to_sym, value) }
             end
             false
@@ -175,27 +160,15 @@ module FCG
 
         def create
           _run_create_callbacks do
-            request = self.class.create(self)
-            request.on_complete do |response|
-              handle_service_response(response)
-            end
-
-            self.class.hydra.queue(request)
-            self.class.hydra.run
-            request.handled_response
+            response = self.class.create(self)
+            handle_service_response(response)
           end
         end
 
         def update
           _run_update_callbacks do
-            request = self.class.update(self)
-            request.on_complete do |response|
-              handle_service_response(response)
-            end
-
-            self.class.hydra.queue(request)
-            self.class.hydra.run
-            request.handled_response
+            response = self.class.update(self)
+            handle_service_response(response)
           end
         end
       end

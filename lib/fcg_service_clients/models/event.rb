@@ -9,7 +9,7 @@ module FCG
         def upcoming_the_next_7_days
           now = 6.hours.ago(Time.now.utc)
           date_range = now.beginning_of_day..7.days.since(now).end_of_day
-          search(:active => true, :start_date => date_range.first.to_i, :end_date => date_range.last.to_i)
+          search(:conditions => {:active => true, :start_date => date_range.first.to_i, :end_date => date_range.last.to_i})
         end
       end
 

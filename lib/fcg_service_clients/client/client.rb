@@ -1,5 +1,3 @@
-require "facets/uri"
-
 module FCG
   module Client
     module Base
@@ -9,34 +7,31 @@ module FCG
           opts = args.extract_options!
           params = {
             :limit => 10,
-            :offset => 0
+            :skip => 0
           }.merge(opts)
           
-          verb = "search"
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{verb}?" + params.to_uri,
-            :method => :get)
-          
-          request.on_complete do |response|
-            handle_service_response(response)
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
-          request.handled_response
+          response = Typhoeus::Request.post("#{service_url}/#{id}", :body => params.to_msgpack)
+          handle_service_response(response)
         end
         
         def handle_service_response(response)
+          response_body = MessagePack.unpack(response.body)
           case response.code
           when 200
-            result = MessagePack.unpack(response.body)
-            result.respond_to?(:keys) ? Hashie::Mash.new(result) : result
+            result = response_body
+            if result.is_a? Array
+              result.map do |res|
+                res.respond_to?(:keys) ? Hashie::Mash.new(res) : res
+              end
+            else
+              result.respond_to?(:keys) ? Hashie::Mash.new(result) : result
+            end
+            true
           when 400
             {
               :error => {
                 :http_code => response.code,
-                :http_response_body => MessagePack.unpack(response.body)
+                :http_response_body => response_body
               }
             }
             false
@@ -55,12 +50,30 @@ module FCG
         end
         
         def service_url
-          [ self.host, "api", self.version, self.model].join("/")
+          [ self.host, self.model].join("/")
         end
       end
       
       module InstanceMethods
-        
+        def to_hash(*args)
+          opts = args.extract_options!
+          options = {
+            :except => []
+          }.merge(opts)
+          res = self.serializable_hash.inject({}) do |result, (key, value)|
+            next if options[:except].include?key
+            case value
+            when Date, DateTime, Time
+              value = value.to_s
+            end
+            result[key] = value
+            result
+          end
+        end
+
+        def to_msgpack(*args)
+          self.to_hash(*args).to_msgpack
+        end
       end
       
       def self.included(receiver)

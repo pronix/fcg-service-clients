@@ -1,9 +1,11 @@
-require "rubygems"
-require "active_model"
-require "active_support"
-require "typhoeus"
+require 'rubygems'
+require 'active_model'
+require 'active_support'
+require 'typhoeus'
 require 'msgpack'
 require 'hashie'
+require 'facets'
+require 'bunny'
 include Hashie::HashExtensions
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -17,23 +19,22 @@ Dir[
 ].each do |file|
   require file
 end
-# __END__
+
+__END__
 
 class Stat
   include FCG::Client::Stat
   setup_service :model => "stats", :hydra => FCG::Client::Base::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
 end
-
-
-# 
-# 1.upto(10).each do |i|
-#   puts "Pass ##{i}"
-#   # t = Stat.views("image:4c4e7da0ff808d20c9000003", 201009)
-#   # puts t.inspect
-#   
-#   s = Stat.top_views("citycode:nyc", "image", 20100926)
-#   puts s.inspect
-# end
+ 
+1.upto(1).each do |i|
+  puts "Pass ##{i}"
+  # t = Stat.views("image:4c4e7da0ff808d20c9000003", 201009)
+  # puts t.inspect
+  
+  s = Stat.top_views("citycode:nyc", "image", 20100926)
+  puts s.inspect
+end
 
 # class Run
 #   ATTRIBUTES = [:id, :bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, 
