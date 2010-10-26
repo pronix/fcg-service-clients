@@ -1,11 +1,10 @@
 module FCG
   module Client
     module User
-      ATTRIBUTES = [:id, :bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, 
-        :facebook_id, :facebook_proxy_email, :facebook_session, :flags, :flyers, :last_visited_at, 
-        :location, :names, :password, :photo_album, :photo_count, :photos, :posted_party_at, :profile_image, 
-        :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, 
-        :twitter_username, :updated_at, :uploaded_photos_at, :username, :web]
+      ATTRIBUTES = [:bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, :facebook_id, :facebook_proxy_email, :facebook_session, 
+        :first_name, :flags, :flyers, :id, :last_name, :last_visited_at, :location, :password, :photo_album, :photo_count, :photos, :posted_party_at, 
+        :profile_image, :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, :twitter_username, :updated_at, 
+        :uploaded_photos_at, :username, :web]
 
       module ClassMethods
         def find_by_facebook_id(facebook_id)

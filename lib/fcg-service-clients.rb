@@ -19,9 +19,7 @@ Dir[
 ].each do |file|
   require file
 end
-
 __END__
-
 class Stat
   include FCG::Client::Stat
   setup_service :model => "stats", :hydra => FCG::Client::Base::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
@@ -51,7 +49,7 @@ end
 #     "puts pring"
 #   end
 # end
-# 
+
 # 1.upto(3).each do |i|
 #   puts "Pass ##{i}"
 #   t = Run.find("4c401627ff808d982a00000b")

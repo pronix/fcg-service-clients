@@ -2,6 +2,13 @@ module FCG
   module Client
     module Base
       HYDRA = Typhoeus::Hydra.new
+      
+      class FailedConnectionException < RuntimeError
+      end
+      
+      class ServiceCodeException < RuntimeError
+      end
+      
       module ClassMethods
         def search(*args)
           opts = args.extract_options!
@@ -10,23 +17,36 @@ module FCG
             :skip => 0
           }.merge(opts)
           
-          response = Typhoeus::Request.post("#{service_url}/#{id}", :body => params.to_msgpack)
-          handle_service_response(response)
+          request = Typhoeus::Request.new(
+            "#{service_url}/search", :body => params.to_msgpack,
+            :method => :post)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
         end
         
         def handle_service_response(response)
-          response_body = MessagePack.unpack(response.body)
+          begin
+            response_body = MessagePack.unpack(response.body)
+          rescue MessagePack::UnpackError => e
+            log "MessagePack::UnpackError:#{response.body}"
+            response_body = []
+          end
           case response.code
           when 200
             result = response_body
             if result.is_a? Array
               result.map do |res|
-                res.respond_to?(:keys) ? Hashie::Mash.new(res) : res
+                res.respond_to?(:keys) ?  Hashie::Mash.new(res) : res
               end
             else
               result.respond_to?(:keys) ? Hashie::Mash.new(result) : result
             end
-            true
           when 400
             {
               :error => {
@@ -34,7 +54,8 @@ module FCG
                 :http_response_body => response_body
               }
             }
-            false
+          when 500
+            log [ServiceCodeException, response.body, caller].join(" ")
           end
         end
         
@@ -81,6 +102,7 @@ module FCG
         receiver.send :include, InstanceMethods
         receiver.send :include, ClassLevelInheritableAttributes
         receiver.cattr_inheritable :host, :hydra, :model, :version, :async_client
+        receiver.attr_accessor :attributes_original
       end
     end
   end

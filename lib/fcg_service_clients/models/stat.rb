@@ -1,5 +1,3 @@
-require 'facets/uri'
-
 module FCG
   module Client
     module Stat
@@ -47,7 +45,7 @@ module FCG
           }.merge(opts)
           
           request = Typhoeus::Request.new(
-            "#{self.service_url}/most_visited?" + params.to_uri,
+            "#{self.service_url}/most_visited", :params => params,
             :method => :get)
 
           request.on_complete do |response|

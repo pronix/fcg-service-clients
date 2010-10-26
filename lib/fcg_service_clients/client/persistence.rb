@@ -19,7 +19,7 @@ module FCG
         def update(record)
           request = Typhoeus::Request.new(
             "#{service_url}/#{record.id}",
-            :method => :put, :body => record.to_msgpack)
+            :method => :put, :body => record.diff.to_msgpack)
           request.on_complete do |response|
             response
           end
@@ -93,6 +93,7 @@ module FCG
       module InstanceMethods
         def initialize(attributes_or_msgpack = {})
           self.attributes = attributes_or_msgpack.respond_to?(:to_mash) ? attributes_or_msgpack.to_mash : attributes_or_msgpack
+          self.attributes_original = self.attributes.clone
           @errors = ActiveModel::Errors.new(self)
           @new_record = (self.id.nil? ? true :false)
           @_destroyed = false
@@ -171,7 +172,11 @@ module FCG
           end
           self
         end
-
+        
+        def diff
+          self.attributes.diff(self.attributes_original)
+        end
+        
         private
         def handle_service_response(response)
           case response.code
