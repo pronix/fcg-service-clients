@@ -73,6 +73,24 @@ module FCG
         def service_url
           [ self.host, self.model].join("/")
         end
+
+        protected
+        # from rails 3
+        def generated_attribute_methods #:nodoc:
+          @generated_attribute_methods ||= begin
+            mod = Module.new
+            include mod
+            mod
+          end
+        end
+        
+        def define_method_attribute=(attr_name)
+          generated_attribute_methods.module_eval("def #{attr_name}=(new_value); write_attribute('#{attr_name}', new_value); end", __FILE__, __LINE__)
+        end
+        
+        def define_method_attributes=(attr_names)
+          attr_names.each{|attr_name| define_method_attribute(attr_name) }
+        end
       end
       
       module InstanceMethods

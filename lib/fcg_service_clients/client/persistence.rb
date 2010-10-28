@@ -19,7 +19,7 @@ module FCG
         def update(record)
           request = Typhoeus::Request.new(
             "#{service_url}/#{record.id}",
-            :method => :put, :body => record.diff.to_msgpack)
+            :method => :put, :body => record.diff_as_msgpack)
           request.on_complete do |response|
             response
           end
@@ -108,11 +108,11 @@ module FCG
         end
 
         def attributes=(attrs)
-          attrs.each_pair do |name, value| 
+          attrs.each_pair do |key, value| 
             begin
-              send("#{name}=", value)
+              write_attribute_for_validation(key, value) if respond_to?("#{key}=")
             rescue NoMethodError
-              puts "#{name} is missing"
+              puts "#{key} is missing"
             end
           end
         end
@@ -120,7 +120,10 @@ module FCG
         def read_attribute_for_validation(key)
           send(key)
         end
-
+        
+        def write_attribute_for_validation(key, value)
+          send("#{key}=", value)
+        end
         def save(*)
           if valid?
             _run_save_callbacks do
@@ -175,6 +178,18 @@ module FCG
         
         def diff
           self.attributes.diff(self.attributes_original)
+        end
+        
+        def diff_as_msgpack
+          hash = diff.inject({}) do |result, (key, value)|
+            case value
+            when Date, DateTime, Time
+              value = value.to_s
+            end
+            result[key] = value
+            result
+          end
+          hash.to_msgpack
         end
         
         private
