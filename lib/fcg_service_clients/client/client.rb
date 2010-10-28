@@ -18,7 +18,7 @@ module FCG
           }.merge(opts)
           
           request = Typhoeus::Request.new(
-            "#{service_url}/search", :body => params.to_msgpack,
+            "#{service_url}/search", :body => hash_to_msgpack(params),
             :method => :post)
           request.on_complete do |response|
             response
@@ -73,7 +73,40 @@ module FCG
         def service_url
           [ self.host, self.model].join("/")
         end
-
+        
+        def serializable_hash(hash, *args)
+          opts = args.extract_options!
+          options = {
+            :except => []
+          }.merge(opts)
+          hash.inject({}) do |result, (key, value)|
+            next if options[:except].include? key
+            result[key] = value_for_hash(value)
+            result
+          end
+        end
+        
+        [:json, :xml, :msgpack].each do |format|
+          define_method("hash_to_#{format}".to_sym) do |hash, *args|
+            hash = self.serializable_hash(hash, *args)
+            hash.send "to_#{format}"
+          end
+        end
+        
+        def value_for_hash(value)
+          log value.inspect
+          case value
+          when Date, DateTime, Time
+            value.to_s
+          when Range
+            [value.first, value.last].map(&:to_s).join("..")
+          when Hash
+            serializable_hash(value)
+          else
+            value
+          end
+        end
+        
         protected
         # from rails 3
         def generated_attribute_methods #:nodoc:
@@ -100,19 +133,16 @@ module FCG
             :except => []
           }.merge(opts)
           res = self.serializable_hash.inject({}) do |result, (key, value)|
-            next if options[:except].include?key
-            case value
-            when Date, DateTime, Time
-              value = value.to_s
-            end
-            result[key] = value
+            next if options[:except].include? key
+            result[key] = self.class.value_for_hash(value)
             result
           end
         end
 
         def to_msgpack(*args)
-          self.to_hash(*args).to_msgpack
+          self.class.hash_to_msgpack(self.to_hash, *args)
         end
+        
       end
       
       def self.included(receiver)

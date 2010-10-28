@@ -124,6 +124,7 @@ module FCG
         def write_attribute_for_validation(key, value)
           send("#{key}=", value)
         end
+        
         def save(*)
           if valid?
             _run_save_callbacks do
@@ -182,11 +183,7 @@ module FCG
         
         def diff_as_msgpack
           hash = diff.inject({}) do |result, (key, value)|
-            case value
-            when Date, DateTime, Time
-              value = value.to_s
-            end
-            result[key] = value
+            result[key] = value_for_hash(value)
             result
           end
           hash.to_msgpack
