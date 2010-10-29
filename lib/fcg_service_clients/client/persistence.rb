@@ -78,7 +78,7 @@ module FCG
         end
 
         def attributes
-          @attributes ||= const_get('ATTRIBUTES' )
+          @attributes ||= [:id] + const_get('ATTRIBUTES')
         end
 
         def column_names
@@ -183,7 +183,7 @@ module FCG
         
         def diff_as_msgpack
           hash = diff.inject({}) do |result, (key, value)|
-            result[key] = value_for_hash(value)
+            result[key] = self.class.value_for_hash(value)
             result
           end
           hash.to_msgpack

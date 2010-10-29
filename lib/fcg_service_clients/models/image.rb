@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Image
-      ATTRIBUTES = [:id, :album_id, :caption, :created_at, :deleted_at, :job_id, :size, :state, :types, :updated_at, :url, :user_id] 
+      ATTRIBUTES = [:album_id, :caption, :created_at, :deleted_at, :job_id, :size, :state, :types, :updated_at, :url, :user_id] 
 
       module ClassMethods
         

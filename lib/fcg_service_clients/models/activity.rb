@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Activity
-      ATTRIBUTES = [:actor, :created_at, :extra, :id, :object, :site, :summary, :target, :title, :verb, :visible]
+      ATTRIBUTES = [:actor, :created_at, :extra, :object, :site, :summary, :target, :title, :verb, :visible]
 
       module ClassMethods
         

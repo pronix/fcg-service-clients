@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Event
-      ATTRIBUTES = [:id, :active, :comments_allowed, :created_at, :date, :deleted_at, :description, :dj, :end_time, :end_time_utc, :flyer_album, :flyers, :host, 
+      ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :deleted_at, :description, :dj, :end_time, :end_time_utc, :flyer_album, :flyers, :host, 
         :length_in_hours, :music, :party_id, :photo_album, :photos, :posted_to_twitter_at, :start_time, :start_time_utc, :title, :updated_at, :user_id, 
         :venue, :version]
 
