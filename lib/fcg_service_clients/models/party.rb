@@ -45,6 +45,14 @@ module FCG
           v = Venue.find(val.to_s)
           self.venue = v.to_hash
         end
+        
+        def venue_id
+          venue[:id] rescue nil
+        end
+        
+        def venue_name
+          venue[:name] rescue ''
+        end
 
         # def to_param
         #   %Q{#{id}-#{[title, venue.name, venue.city, venue.state].join(' ').gsub(/[^a-z0-9]+/i, '_')}}
