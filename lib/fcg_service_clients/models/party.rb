@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Party
-      ATTRIBUTES = [:active, :comments_allowed, :created_at, :days_free, :days_left, :days_paid, :deleted, :description, :dj, :door_charge_in_cents, :end_date, :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :photographer_list, :pictures_left, :post_updates_to_twitter, :premium, :private, :recur, :rsvp_email, :start_time, :title, :updated_at, :url, :user_id, :venue]
+      ATTRIBUTES = [:active, :comments_allowed, :created_at, :days_free, :days_left, :days_paid, :deleted, :description, :dj, :door_charge_in_cents, :end_date, :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :next_date_slashed, :photographer_list, :pictures_left, :post_updates_to_twitter, :premium, :private, :recur, :rsvp_email, :start_time, :title, :updated_at, :url, :user_id, :venue, :event]
 
       module ClassMethods
         
@@ -85,7 +85,7 @@ module FCG
       end
 
       def self.included(receiver)
-        attr_accessor *ATTRIBUTES
+#         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods

@@ -78,6 +78,7 @@ module FCG
         end
 
         def attributes
+          raise "Missing ATTRIBUTES" unless defined? :ATTRIBUTES
           @attributes ||= [:id] + const_get('ATTRIBUTES')
         end
 
@@ -236,6 +237,7 @@ module FCG
         receiver.send :include, FCG::Client::Base
         receiver.extend         ClassMethods
         receiver.send :include, InstanceMethods
+        attr_accessor *receiver.attributes
       end
     end
   end

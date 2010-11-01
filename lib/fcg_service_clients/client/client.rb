@@ -150,7 +150,7 @@ module FCG
         receiver.send :include, InstanceMethods
         receiver.send :include, ClassLevelInheritableAttributes
         receiver.cattr_inheritable :host, :hydra, :model, :version, :async_client
-        receiver.attr_accessor :attributes_original
+        attr_accessor :attributes_original
       end
     end
   end

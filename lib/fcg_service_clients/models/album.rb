@@ -12,7 +12,7 @@ module FCG
       end
 
       def self.included(receiver)
-        attr_accessor *ATTRIBUTES
+#         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
