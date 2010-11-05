@@ -47,7 +47,7 @@ module FCG
         end
 
         def date=(val)
-          write_attribute(:date, Date.parse(val))
+          write_attribute(:date, Date.parse(val).db)
         end
 
         # def venue=(val)
@@ -101,7 +101,7 @@ module FCG
       end
 
       def self.included(receiver)
-#         attr_accessor *ATTRIBUTES
+
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods

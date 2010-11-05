@@ -34,7 +34,6 @@ module FCG
           begin
             response_body = MessagePack.unpack(response.body)
           rescue MessagePack::UnpackError => e
-            log "MessagePack::UnpackError:#{response.body}"
             response_body = []
           end
           case response.code
@@ -94,7 +93,6 @@ module FCG
         end
         
         def value_for_hash(value)
-          log value.inspect
           case value
           when Date, DateTime, Time
             value.to_s
@@ -139,10 +137,15 @@ module FCG
           end
         end
 
-        def to_msgpack(*args)
-          self.class.hash_to_msgpack(self.to_hash, *args)
-        end
+        # def to_msgpack(*args)
+        #   self.class.hash_to_msgpack(self.to_hash, *args)
+        # end
         
+        [:json, :xml, :msgpack].each do |format|
+          define_method("to_#{format}".to_sym) do |*args|
+            self.class.send "hash_to_#{format}", self.to_hash, *args
+          end
+        end
       end
       
       def self.included(receiver)

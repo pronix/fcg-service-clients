@@ -1,7 +1,9 @@
 module FCG
   module Client
     module Party
-      ATTRIBUTES = [:active, :comments_allowed, :created_at, :days_free, :days_left, :days_paid, :deleted, :description, :dj, :door_charge_in_cents, :end_date, :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :next_date_slashed, :photographer_list, :pictures_left, :post_updates_to_twitter, :premium, :private, :recur, :rsvp_email, :start_time, :title, :updated_at, :url, :user_id, :venue, :event]
+      ATTRIBUTES = [:active, :comments_allowed, :created_at, :days_free, :days_left, :days_paid, :deleted, :description, :dj, :door_charge_in_cents, :end_date, 
+        :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :next_date_slashed, :photographer_list, 
+        :pictures_left, :post_updates_to_twitter, :premium, :private, :recur, :rsvp_email, :start_time, :title, :updated_at, :url, :user_id, :venue]
 
       module ClassMethods
         
@@ -13,45 +15,38 @@ module FCG
         end
 
         def weekly=(val)
-          if val.to_i == 1
-            self.recur = "weekly"
-          else
-            self.recur = "once"
-          end
+          self.recur = (val.to_i == 1 ? "weekly" : "once")
         end
 
-        def venue_name
-          venue[:name]
-        end
-
-        def next_date=(val)
-          write_attribute(:next_date, Date.parse(val))
-        end
+        # def next_date=(val)
+        #   write_attribute(:next_date, Date.parse(val).db )
+        # end
 
         def current_event
           return nil if current_event_id.nil?
-          Event.find(current_event_id)
+          ::Event.find(current_event_id)
         end
 
         def current_event_id
-          events["#{next_date}"]
+          log "events:" + events.inspect
+          events.respond_to? :[] ? events["#{next_date}"] : nil
         end
 
         def create_current_event
-          event = Event.create_based_on_party(self) if current_event.nil? 
+          event = ::Event.create_based_on_party(self) if current_event.nil? 
         end
 
         def venue_id=(val)
-          v = Venue.find(val.to_s)
+          v = ::Venue.find(val.to_s)
           self.venue = v.to_hash
         end
         
         def venue_id
-          venue[:id] rescue nil
+          venue["id"] rescue nil
         end
         
         def venue_name
-          venue[:name] rescue ''
+          venue["name"] rescue ''
         end
 
         # def to_param
@@ -85,10 +80,16 @@ module FCG
       end
 
       def self.included(receiver)
-#         attr_accessor *ATTRIBUTES
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
+
+        # validation
+        receiver.validates_presence_of :title, :music, :description, :user_id, :next_date, :venue
+        receiver.validates_format_of :start_time, :with => /^(0?[1-9]|1[0-2]):(00|15|30|45)(a|p)m$/i
+        receiver.validates_format_of :end_time, :with => /^(0?[1-9]|1[0-2]):(00|15|30|45)(a|p)m$/i
+        receiver.validates_length_of :title,   :within => 3..64
+        receiver.validates_length_of :description,   :within => 3..5000
       end
     end
   end
