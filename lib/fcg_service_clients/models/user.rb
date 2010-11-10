@@ -22,21 +22,6 @@ module FCG
           handle_service_response request.handled_response
         end
 
-        def find_by_id(id)
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/find_by_id/#{id}",
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
-          handle_service_response request.handled_response
-        end
-
         def find_by_username(username)
           request = Typhoeus::Request.new(
             "#{self.service_url}/find_by_username/#{username}",
