@@ -17,6 +17,10 @@ module FCG
         def weekly=(val)
           self.recur = (val.to_i == 1 ? "weekly" : "once")
         end
+        
+        def user
+          @user ||= ::User.find(self.user_id) unless self.user_id.nil?
+        end
 
         # def next_date=(val)
         #   write_attribute(:next_date, Date.parse(val).db )

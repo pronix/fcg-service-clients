@@ -21,7 +21,7 @@ module FCG
         end
 
         def cover_image
-          Image.find(photos_sorted.first) unless photos.empty?
+          ::Image.find(photos_sorted.first) unless photos.empty?
         end
 
         def update_from_party(party, new_date)
@@ -45,10 +45,18 @@ module FCG
         def venue_name
           venue[:name]
         end
-
-        def date=(val)
-          write_attribute(:date, Date.parse(val).db)
+        
+        def date
+          @date ||= Date.parse(attributes["date"])
         end
+        
+        def party
+          @party ||= ::Party.find attributes["party_id"]
+        end
+        
+        # def date=(val)
+        #   write_attribute(:date, Date.parse(val).db)
+        # end
 
         # def venue=(val)
         #   write_attribute(:venue_id, val.id)
@@ -58,15 +66,15 @@ module FCG
         #   write_attribute(:citycode, val.citycode) unless citycode?
         # end
 
-        def party=(val)
-          write_attribute(:party_id, val.id)
-          write_attribute(:venue, val.venue)
-          write_attribute(:start_time, val.start_time)
-          write_attribute(:end_time, val.end_time)
-          write_attribute(:user_id, val.user_id)
-          write_attribute(:date, val.next_date)
-          set_utc(val.next_date, val.start_time, val.length_in_hours)
-        end
+        # def party=(val)
+        #   write_attribute(:party_id, val.id)
+        #   write_attribute(:venue, val.venue)
+        #   write_attribute(:start_time, val.start_time)
+        #   write_attribute(:end_time, val.end_time)
+        #   write_attribute(:user_id, val.user_id)
+        #   write_attribute(:date, val.next_date)
+        #   set_utc(val.next_date, val.start_time, val.length_in_hours)
+        # end
 
         def full_address
           venue[:full_address]
@@ -101,7 +109,6 @@ module FCG
       end
 
       def self.included(receiver)
-
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
