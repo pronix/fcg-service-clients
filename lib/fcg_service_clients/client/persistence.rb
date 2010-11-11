@@ -93,7 +93,8 @@ module FCG
 
       module InstanceMethods
         def initialize(attributes_or_msgpack = {})
-          self.attributes = attributes_or_msgpack.respond_to?(:to_mash) ? attributes_or_msgpack.to_mash : attributes_or_msgpack
+          self.raw_attributes = attributes_or_msgpack.respond_to?(:to_mash) ? attributes_or_msgpack.to_mash : attributes_or_msgpack
+          self.attributes = self.raw_attributes
           self.attributes_original = self.attributes.clone
           @errors = ActiveModel::Errors.new(self)
           @new_record = (self.id.nil? ? true :false)
@@ -123,6 +124,7 @@ module FCG
         end
         
         def write_attribute_for_validation(key, value)
+          self.raw_attributes[key] = value
           send("#{key}=", value)
         end
         

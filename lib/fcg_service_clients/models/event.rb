@@ -14,67 +14,35 @@ module FCG
       end
 
       module InstanceMethods
-        def photo_album_title
-          txt = date.short_date + ": #{title_and_venue_name}"
-          txt << " (#{photo_album[:title]})" if photo_album[:title]
-          txt
-        end
-
         def cover_image
           ::Image.find(photos_sorted.first) unless photos.empty?
         end
 
-        def update_from_party(party, new_date)
-          self.party  = party
-          self.date = new_date
-          set_utc(party.date, party.start_time, party.length_in_hours)
-        end
-
-        def parse_time(date_time)
-          Time.parse date_time.to_s
-        end
-
-        def set_utc(date, start_time, hrs)
-          raw_start_time = parse_time( date.to_s + " " + start_time )
-          end_date_time = hrs.to_i.hours.since(raw_start_time)
-          write_attribute(:start_time_utc, raw_start_time.local_to_utc( time_zone ))
-          raw_end_time_utc = end_date_time.local_to_utc( time_zone )
-          write_attribute(:end_time_utc, raw_end_time_utc)
-        end
+        # def update_from_party(party, new_date)
+        #   self.party = party
+        #   self.date = new_date
+        #   set_utc(party.date, party.start_time, party.length_in_hours)
+        # end
+        # 
+        # def parse_time(date_time)
+        #   Time.parse date_time.to_s
+        # end
+        # 
+        # def set_utc(date, start_time, hrs)
+        #   raw_start_time = parse_time( date.to_s + " " + start_time )
+        #   end_date_time = hrs.to_i.hours.since(raw_start_time)
+        #   write_attribute(:start_time_utc, raw_start_time.local_to_utc( time_zone ))
+        #   raw_end_time_utc = end_date_time.local_to_utc( time_zone )
+        #   write_attribute(:end_time_utc, raw_end_time_utc)
+        # end
 
         def venue_name
           venue[:name]
         end
         
-        def date
-          @date ||= Date.parse(attributes["date"])
-        end
-        
         def party
-          @party ||= ::Party.find attributes["party_id"]
+          @party = ::Party.find attributes.party_id
         end
-        
-        # def date=(val)
-        #   write_attribute(:date, Date.parse(val).db)
-        # end
-
-        # def venue=(val)
-        #   write_attribute(:venue_id, val.id)
-        #   write_attribute(:venue_name, val.name)
-        #   write_attribute(:lat, val.lat) unless lat.nil?
-        #   write_attribute(:lng, val.lng) unless lng.nil?
-        #   write_attribute(:citycode, val.citycode) unless citycode?
-        # end
-
-        # def party=(val)
-        #   write_attribute(:party_id, val.id)
-        #   write_attribute(:venue, val.venue)
-        #   write_attribute(:start_time, val.start_time)
-        #   write_attribute(:end_time, val.end_time)
-        #   write_attribute(:user_id, val.user_id)
-        #   write_attribute(:date, val.next_date)
-        #   set_utc(val.next_date, val.start_time, val.length_in_hours)
-        # end
 
         def full_address
           venue[:full_address]
@@ -105,6 +73,34 @@ module FCG
 
         def uploadable_by_user?(*args)
           self.party.uploadable_by_user?(*args)
+        end
+        
+
+        def date
+          Date.parse(self.raw_attributes[:date])
+        end
+
+        def photo_album_title
+          txt = date.short_date + ": #{title_and_venue_name}"
+          txt << " (#{photo_album[:title]})" if !photo_album.nil? and photo_album.has_key? :title
+          txt
+        end
+
+        def flyers?
+          !flyers.empty?
+        end
+
+        def flyers
+          # TODO: create flyer model
+          []
+        end
+
+        def end_time_utc
+          Time.parse(self.raw_attributes[:end_time_utc])
+        end
+
+        def start_time_utc
+          Time.parse(self.raw_attributes[:start_time_utc])
         end
       end
 
