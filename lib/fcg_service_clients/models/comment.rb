@@ -7,7 +7,7 @@ module FCG
         def count(*args)
           opts = args.extract_options!
           request = Typhoeus::Request.new(
-            "#{service_url}/search", :body => hash_to_msgpack(opts),
+            "#{service_url}/count", :body => hash_to_msgpack(opts),
             :method => :post)
           request.on_complete do |response|
             response
