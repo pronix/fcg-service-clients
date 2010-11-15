@@ -81,6 +81,10 @@ module FCG
           return true if user.id == self.user_id or photographer_list.include?("email:#{user.email}") or photographer_list.include?("username:#{user.username}")
           false
         end
+        
+        def next_date
+          Date.parse(self.raw_attributes[:next_date])
+        end
       end
 
       def self.included(receiver)
