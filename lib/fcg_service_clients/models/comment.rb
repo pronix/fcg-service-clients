@@ -4,11 +4,11 @@ module FCG
       ATTRIBUTES = [:site, :record, :body, :body_as_html, :deleted, :flagged_by, :depth, :path, :parent_id, :displayed_name, :user_id]
 
       module ClassMethods
-        def all
+        def count(*args)
+          opts = args.extract_options!
           request = Typhoeus::Request.new(
-            "#{self.service_url}/all",
-            :method => :get)
-
+            "#{service_url}/count", :body => hash_to_msgpack(opts),
+            :method => :post)
           request.on_complete do |response|
             response
           end
