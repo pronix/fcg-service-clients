@@ -17,9 +17,19 @@ module FCG
             :skip => 0
           }.merge(opts)
           
+          params[:conditions] = params[:conditions].inject({}) do |result, (key, value)|
+            case value
+            when Range
+              result["#{key}.gte".to_sym], result["#{key}.lte".to_sym] = value.first, value.last
+            else
+              result[key] = value
+            end
+            result
+          end unless params[:conditions].nil?
+          
           request = Typhoeus::Request.new(
-            "#{service_url}/search", :body => hash_to_msgpack(params),
-            :method => :post)
+            "#{service_url}/search", :params => params,
+            :method => :get)
           request.on_complete do |response|
             response
           end

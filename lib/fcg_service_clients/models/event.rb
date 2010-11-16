@@ -11,30 +11,34 @@ module FCG
           date_range = now.beginning_of_day..7.days.since(now).end_of_day
           search(:conditions => {:active => true, :start_date => date_range.first.to_i, :end_date => date_range.last.to_i})
         end
-      end
+        
+        def find_by_citycode(citycode, *args)
+          opts = args.extract_options!
+          params = {
+            :state => "past", # past, between, or future
+            :time => Time.now.utc,
+            :limit => 10,
+            :active => true,
+            :skip => 0
+          }.merge(opts)
+          request = Typhoeus::Request.new(
+            "#{service_url}/citycode/#{citycode}", :params => params,
+            :method => :get)
+          request.on_complete do |response|
+            response
+          end
 
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
+        end
+      end
+      
       module InstanceMethods
         def cover_image
           ::Image.find(photos_sorted.first) unless photos.empty?
         end
-
-        # def update_from_party(party, new_date)
-        #   self.party = party
-        #   self.date = new_date
-        #   set_utc(party.date, party.start_time, party.length_in_hours)
-        # end
-        # 
-        # def parse_time(date_time)
-        #   Time.parse date_time.to_s
-        # end
-        # 
-        # def set_utc(date, start_time, hrs)
-        #   raw_start_time = parse_time( date.to_s + " " + start_time )
-        #   end_date_time = hrs.to_i.hours.since(raw_start_time)
-        #   write_attribute(:start_time_utc, raw_start_time.local_to_utc( time_zone ))
-        #   raw_end_time_utc = end_date_time.local_to_utc( time_zone )
-        #   write_attribute(:end_time_utc, raw_end_time_utc)
-        # end
 
         def venue_name
           venue[:name]
@@ -45,9 +49,9 @@ module FCG
         end
 
         def full_address
-          venue[:full_address]
+          "#{venue.address}, #{venue.city}, #{venue.state}, #{venue.zipcode}"
         end
-
+        
         def time_zone
           venue[:time_zone]
         end
