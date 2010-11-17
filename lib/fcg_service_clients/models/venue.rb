@@ -7,7 +7,7 @@ module FCG
         def autocomplete(term, *args)
           opts = args.extract_options!
           params = {
-            :term => "",
+            :term => term,
             :limit => 10,
             :skip => 0
           }.merge(opts)
