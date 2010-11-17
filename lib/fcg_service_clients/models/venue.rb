@@ -4,7 +4,24 @@ module FCG
       ATTRIBUTES = [:active, :address, :city, :citycode, :country, :created_at, :lat, :lng, :name, :state, :time_zone, :updated_at, :user_id, :zipcode]
 
       module ClassMethods
-        
+        def autocomplete(term, *args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :skip => 0
+          }.merge(opts)
+          request = Typhoeus::Request.new(
+            "#{service_url}/autocomplete", :params => params,
+            :method => :get)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
+        end
       end
 
       module InstanceMethods
