@@ -2,7 +2,7 @@ module FCG
   module Client
     module Party
       ATTRIBUTES = [:active, :comments_allowed, :created_at, :days_free, :days_left, :days_paid, :deleted, :description, :dj, :door_charge_in_cents, :end_date, 
-        :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :next_date_slashed, :photographer_list, 
+        :end_time, :events, :guestlist_in_cents, :hide_guestlist, :host, :length_in_hours, :music, :next_date, :photographer_list, 
         :pictures_left, :post_updates_to_twitter, :premium, :private, :recur, :rsvp_email, :start_time, :title, :updated_at, :url, :user_id, :venue]
 
       module ClassMethods
@@ -32,7 +32,6 @@ module FCG
         end
 
         def current_event_id
-          log "events:" + events.inspect
           events.respond_to? :[] ? events["#{next_date}"] : nil
         end
 
@@ -83,7 +82,7 @@ module FCG
         end
         
         def next_date
-          Date.parse(self.raw_attributes[:next_date])
+          Date.parse(self.raw_attributes[:next_date]) unless self.raw_attributes[:next_date].nil?
         end
       end
 
