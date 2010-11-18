@@ -146,10 +146,6 @@ module FCG
             result
           end
         end
-
-        # def to_msgpack(*args)
-        #   self.class.hash_to_msgpack(self.to_hash, *args)
-        # end
         
         [:json, :xml, :msgpack].each do |format|
           define_method("to_#{format}".to_sym) do |*args|
