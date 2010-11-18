@@ -84,6 +84,10 @@ module FCG
         def next_date
           Date.parse(self.raw_attributes[:next_date]) unless self.raw_attributes[:next_date].nil?
         end
+        
+        def next_date_readable
+          next_date.to_s unless next_date.nil?
+        end
       end
 
       def self.included(receiver)
