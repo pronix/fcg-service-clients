@@ -78,11 +78,18 @@ module FCG
           self.party.uploadable_by_user?(*args)
         end
         
-
         def date
           Date.parse(self.raw_attributes[:date])
         end
 
+        def flyer_album
+          ::Album.find flyer_album_id unless flyer_album_id.nil?
+        end
+        
+        def photo_album
+          ::Album.find photo_album_id unless photo_album_id.nil?
+        end
+        
         def photo_album_title
           txt = date.short_date + ": #{title_and_venue_name}"
           txt << " (#{photo_album[:title]})" if !photo_album.nil? and photo_album.has_key? :title
