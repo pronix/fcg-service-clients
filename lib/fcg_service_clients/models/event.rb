@@ -1,9 +1,8 @@
 module FCG
   module Client
     module Event
-      ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :deleted_at, :description, :dj, :end_time, :end_time_utc, :flyer_album, :flyers, :host, 
-        :length_in_hours, :music, :party_id, :photo_album, :photos, :posted_to_twitter_at, :start_time, :start_time_utc, :title, :updated_at, :user_id, 
-        :venue, :version]
+      ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :description, :dj, :end_time, :end_time_utc, :flyer_album_id, :host, :length_in_hours, 
+        :music, :party_id, :photo_album_id, :posted_to_twitter_at, :start_time, :start_time_utc, :title, :updated_at, :user_id, :venue]
 
       module ClassMethods
         def upcoming_the_next_7_days
@@ -79,11 +78,18 @@ module FCG
           self.party.uploadable_by_user?(*args)
         end
         
-
         def date
           Date.parse(self.raw_attributes[:date])
         end
 
+        def flyer_album
+          ::Album.find flyer_album_id unless flyer_album_id.nil?
+        end
+        
+        def photo_album
+          ::Album.find photo_album_id unless photo_album_id.nil?
+        end
+        
         def photo_album_title
           txt = date.short_date + ": #{title_and_venue_name}"
           txt << " (#{photo_album[:title]})" if !photo_album.nil? and photo_album.has_key? :title
