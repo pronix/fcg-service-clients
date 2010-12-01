@@ -5,7 +5,7 @@ module FCG
 
       module ClassMethods
         def create_new_job_with_id!(id, type)
-          js = create :job_id => id, :type => type, :state => "started", :time_hash => "{}", :error_message => "[]", :created_at => Time.now.w3c
+          create :job_id => id, :type => type, :state => "started", :time_hash => "{}", :error_message => "[]" # , :created => Time.now.w3c
         end
 
         def update!(values_as_hash)

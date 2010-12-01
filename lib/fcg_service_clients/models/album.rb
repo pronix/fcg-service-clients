@@ -17,6 +17,9 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
+        
+        receiver.validates_presence_of :title, :user_id, :date, :image_type, :record
+        receiver.validates_length_of :title, :within => 3..100
       end
     end
   end

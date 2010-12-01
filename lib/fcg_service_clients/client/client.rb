@@ -75,7 +75,7 @@ module FCG
             end 
           end
           class_eval do
-            instance_variable_set("@model", self.name.downcase.pluralize) if instance_variable_get("@model").nil?
+            instance_variable_set("@model", self.name.snakecase.pluralize) if instance_variable_get("@model").nil?
           end
         end
         
