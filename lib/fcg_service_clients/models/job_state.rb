@@ -1,13 +1,9 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :error_message, :job_id, :polled, :result, :state, :time_hash, :type, :updated]
+      ATTRIBUTES = [:created, :error_message, :polled, :result, :state, :time_hash, :type, :updated]
 
       module ClassMethods
-        def create_new_job_with_id!(id, type)
-          create :job_id => id, :type => type, :state => "started", :time_hash => "{}", :error_message => "[]" # , :created => Time.now.w3c
-        end
-
         def update!(values_as_hash)
           js = self[values_as_hash["callback"]["job_state_id"]]
           js.error_message = values_as_hash["errors"].to_json unless values_as_hash["errors"].empty?
@@ -43,11 +39,13 @@ module FCG
         end
 
         def completed!
+          # should be done async
           self.state = "completed"
           self.save
         end
         
         def polled!
+          # should be done async
           self.polled = self.polled.to_i + 1
           self.save
         end
@@ -67,6 +65,7 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
+        receiver.validates_presence_of :type
       end
     end
   end
