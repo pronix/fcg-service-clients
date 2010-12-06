@@ -1,7 +1,7 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :error_message, :polled, :result, :state, :time_hash, :type, :updated]
+      ATTRIBUTES = [:created, :polled, :result, :site, :state, :time_hash, :updated]
 
       module ClassMethods
         def update!(values_as_hash)
@@ -24,18 +24,9 @@ module FCG
       end
 
       module InstanceMethods
-        def image
-          @image ||= Image.by_job_id(job_id).first
-        end
-
         def complete?
-          return false if self.errors_exist?
           return true if self.state == "completed"
-          case self.type
-          when "User", "Flyer", "Event"
-            self.completed! if image and image.check_if_completed?
-          end
-          self.state == "completed"
+          false
         end
 
         def completed!
@@ -46,14 +37,14 @@ module FCG
         
         def polled!
           # should be done async
-          self.polled = self.polled.to_i + 1
+          self.polled = polled + 1
           self.save
         end
         
         def as_json(*args)
           {
-            :job_id => self.job_id,
-            :error_message => JSON.parse(self.error_message),
+            :time_hash => self.time_hash,
+            # :error_message => JSON.parse(self.error_message),
             :state => self.state,
             :type => self.type,
             :polled => self.polled
@@ -65,7 +56,7 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
-        receiver.validates_presence_of :type
+        receiver.validates_presence_of :type, :site
       end
     end
   end
