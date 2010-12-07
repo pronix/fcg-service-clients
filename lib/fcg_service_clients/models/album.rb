@@ -13,7 +13,6 @@ module FCG
       end
 
       def self.included(receiver)
-
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
