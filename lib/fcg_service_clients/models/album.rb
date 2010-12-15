@@ -5,11 +5,63 @@ module FCG
         :summary, :title, :total_image_count, :updated_at, :user_id, :user_submitted_image_count, :user_submitted_images, :user_submitted_order]
 
       module ClassMethods
-        
+        def find_or_create(*args)
+          opts = args.extract_options!
+          album_object = opts[:model].camelize.constantize.find(opts[:id])
+          record = [opts[:model].downcase, opts[:id]].join(":")
+          image_type = opts[:album_type]
+          user_id = (opts[:user].respond_to?(:id) ? opts[:user].id : opts[:user])
+
+          unless album = self.search(:conditions => {:record => record, :image_type => image_type }).first      
+            date = case album_object
+              when Event
+                album_object.date
+              else
+                Date.today
+            end
+
+            location = case album_object
+              when Event
+                album_object.full_address
+              when User
+                "Here, where I am."
+              else
+                "Here"
+            end
+
+            title = case album_object
+            when Event
+              album_object.title
+            when User
+              album_object.full_name + "s' Photo Album"
+            else
+              "Photo Album"
+            end
+
+            album = self.new(:date => date, :record => record, :image_type => image_type, :user_id => user_id, :owner_images => [], :user_submitted_images => [], 
+              :date => date, :location => location, :title => title)
+            unless album.save
+              raise "Album model not saving: #{album.errors.inspect}"
+            end
+          end
+          album
+        end
       end
 
       module InstanceMethods
-        
+        def add_image!(image)
+          if is_image_offical?(image)
+            self.owner_images << image.id
+          else
+            self.user_submitted_images << image.id
+          end
+          self.save
+        end
+
+        # official means is the owner of the image a photographer or the album owner?
+        def is_image_offical?(image)
+          (image.user_id == self.user_id or self.photographers.include?(image.user_id)) ? true : false
+        end
       end
 
       def self.included(receiver)

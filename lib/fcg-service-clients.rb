@@ -23,7 +23,6 @@ Dir[
 end
 
 __END__
-
 class User
   include FCG::Client::User
   setup_service :hydra => FCG::Client::Base::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
