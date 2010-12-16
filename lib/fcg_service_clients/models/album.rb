@@ -23,11 +23,11 @@ module FCG
             # location related information
             location_name, location_hash = case album_object
               when Event
-                album_object.full_address, album_object.venue.to_hash
+                [album_object.full_address, album_object.venue.to_hash]
               when User
-                "Here, where I am.", {}
+                ["Here, where I am.", {}]
               else
-                "Here", {}
+                ["Here", {}]
             end
 
             title = case album_object
