@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Album
-      ATTRIBUTES = [:comments_allowed, :created_at, :date, :image_type, :location, :owner_image_count, :owner_images, :owner_images_order, :record, 
+      ATTRIBUTES = [:comments_allowed, :created_at, :date, :image_type, :location_name, :location_hash, :owner_image_count, :owner_images, :owner_images_order, :record, 
         :summary, :title, :total_image_count, :updated_at, :user_id, :user_submitted_image_count, :user_submitted_images, :user_submitted_order]
 
       module ClassMethods
@@ -20,13 +20,14 @@ module FCG
                 Date.today
             end
 
-            location = case album_object
+            # location related information
+            location_name, location_hash = case album_object
               when Event
-                album_object.full_address
+                album_object.full_address, album_object.venue.to_hash
               when User
-                "Here, where I am."
+                "Here, where I am.", {}
               else
-                "Here"
+                "Here", {}
             end
 
             title = case album_object
@@ -39,7 +40,7 @@ module FCG
             end
 
             album = self.new(:date => date, :record => record, :image_type => image_type, :user_id => user_id, :owner_images => [], :user_submitted_images => [], 
-              :date => date, :location => location, :title => title)
+              :date => date, :location_name => location_name, :location_hash => location_hash, :title => title)
             unless album.save
               raise "Album model not saving: #{album.errors.inspect}"
             end
