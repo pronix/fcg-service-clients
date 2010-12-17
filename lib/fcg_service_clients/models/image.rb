@@ -5,8 +5,13 @@ module FCG
 
       module ClassMethods
         def find_by_ids(ids)
+          ids_as_comma_delimited_string = if ids.is_a? Array and respond_to?(:join)
+            ids.join(",")
+          else
+            ids
+          end
           request = Typhoeus::Request.new(
-            "#{service_url}/by_ids", :params => { :ids => ids.join(",")},
+            "#{service_url}/by_ids", :params => { :ids => ids_as_comma_delimited_string},
             :method => :get)
           request.on_complete do |response|
             response
