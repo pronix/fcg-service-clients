@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Album
-      ATTRIBUTES = [:comments_allowed, :created_at, :date, :image_type, :location_name, :location_hash, :owner_image_count, :owner_images, :owner_images_order, :record, 
+      ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :image_type, :location_name, :location_hash, :owner_image_count, :owner_images, :owner_images_order, :record, 
         :summary, :title, :total_image_count, :updated_at, :user_id, :user_submitted_image_count, :user_submitted_images, :user_submitted_order]
 
       module ClassMethods
@@ -40,12 +40,34 @@ module FCG
             end
 
             album = self.new(:date => date, :record => record, :image_type => image_type, :user_id => user_id, :owner_images => [], :user_submitted_images => [], 
-              :date => date, :location_name => location_name, :location_hash => location_hash, :title => title)
+              :date => date, :location_name => location_name, :location_hash => location_hash, :title => title, :active => true)
             unless album.save
               raise "Album model not saving: #{album.errors.inspect}"
             end
           end
           album
+        end
+        
+        def find_by_citycode(citycode, *args)
+          opts = args.extract_options!
+          params = {
+            :state => "past", # past or between
+            :time => Time.now.utc,
+            :limit => 10,
+            :active => true,
+            :skip => 0
+          }.merge(opts)
+          request = Typhoeus::Request.new(
+            "#{service_url}/citycode/#{citycode}", :params => params,
+            :method => :get)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
         end
       end
 
@@ -62,6 +84,18 @@ module FCG
         # official means is the owner of the image a photographer or the album owner?
         def is_image_offical?(image)
           (image.user_id == self.user_id or self.photographers.include?(image.user_id)) ? true : false
+        end
+        
+        def cover_image
+          all_images.first
+        end
+        
+        def all_images
+          owner_images + user_submitted_images
+        end
+
+        def title_at_location_name
+          "#{title} at #{location_name}"
         end
       end
 
