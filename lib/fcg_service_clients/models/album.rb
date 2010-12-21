@@ -87,7 +87,12 @@ module FCG
         end
         
         def cover_image
-          all_images.first
+          @cover_image ||= begin
+            img = all_images.first
+            unless img.nil?
+              ::Image.find img
+            end
+          end
         end
         
         def all_images
@@ -96,6 +101,14 @@ module FCG
 
         def title_at_location_name
           "#{title} at #{location_name}"
+        end
+        
+        def record_class
+          record.split(/:/).first
+        end
+        
+        def record_id
+          record.split(/:/).last
         end
       end
 

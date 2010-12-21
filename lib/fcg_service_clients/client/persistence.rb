@@ -192,6 +192,10 @@ module FCG
           hash.to_msgpack
         end
         
+        def model_with_id(separator=":")
+          [self.class, self.id].join(separator)
+        end
+        
         private
         def handle_service_response(response)
           case response.code
