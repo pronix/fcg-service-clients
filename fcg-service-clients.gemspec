@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/client/fetcher.rb",
      "lib/fcg_service_clients/client/persistence.rb",
      "lib/fcg_service_clients/models/activity.rb",
+     "lib/fcg_service_clients/models/bookmark.rb",
      "lib/fcg_service_clients/models/album.rb",
      "lib/fcg_service_clients/models/comment.rb",
      "lib/fcg_service_clients/models/event.rb",
