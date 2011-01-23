@@ -42,6 +42,8 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/models/rsvp.rb",
      "lib/fcg_service_clients/models/stat.rb",
      "lib/fcg_service_clients/models/user.rb",
+     "lib/fcg_service_clients/models/site.rb",
+     "lib/fcg_service_clients/models/geo.rb",
      "lib/fcg_service_clients/models/venue.rb",
      "lib/fcg_service_clients/models/type_summary.rb",
      "lib/fcg_service_clients/models/object_summary.rb",
