@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fcg-service-clients}
-  s.version = "0.0.2"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2010-12-21}
+  s.date = %q{2011-01-23}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     ".document",
      ".gitignore",
      "Gemfile",
+     "Gemfile.lock",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -31,24 +32,24 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/client/fetcher.rb",
      "lib/fcg_service_clients/client/persistence.rb",
      "lib/fcg_service_clients/models/activity.rb",
-     "lib/fcg_service_clients/models/bookmark.rb",
      "lib/fcg_service_clients/models/album.rb",
+     "lib/fcg_service_clients/models/bookmark.rb",
+     "lib/fcg_service_clients/models/city_summary.rb",
      "lib/fcg_service_clients/models/comment.rb",
      "lib/fcg_service_clients/models/event.rb",
+     "lib/fcg_service_clients/models/geo.rb",
      "lib/fcg_service_clients/models/image.rb",
      "lib/fcg_service_clients/models/job_state.rb",
+     "lib/fcg_service_clients/models/object_summary.rb",
      "lib/fcg_service_clients/models/party.rb",
      "lib/fcg_service_clients/models/rating.rb",
      "lib/fcg_service_clients/models/rsvp.rb",
-     "lib/fcg_service_clients/models/stat.rb",
-     "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/models/site.rb",
-     "lib/fcg_service_clients/models/geo.rb",
-     "lib/fcg_service_clients/models/venue.rb",
+     "lib/fcg_service_clients/models/stat.rb",
      "lib/fcg_service_clients/models/type_summary.rb",
-     "lib/fcg_service_clients/models/object_summary.rb",
-     "lib/fcg_service_clients/models/city_summary.rb",
+     "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/models/user_object_summary.rb",
+     "lib/fcg_service_clients/models/venue.rb",
      "lib/fcg_service_clients/version.rb",
      "lib/thor/models.rb",
      "spec/fcg-service-clients_spec.rb",
@@ -77,7 +78,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
-      s.add_runtime_dependency(%q<bunny>, [">= 0"])
+      s.add_runtime_dependency(%q<bunny>, ["= 0.6.0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.3"])
       s.add_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
@@ -85,7 +86,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
-      s.add_dependency(%q<bunny>, [">= 0"])
+      s.add_dependency(%q<bunny>, ["= 0.6.0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.3"])
@@ -94,7 +95,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<activemodel>, [">= 3.0.0"])
     s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
-    s.add_dependency(%q<bunny>, [">= 0"])
+    s.add_dependency(%q<bunny>, ["= 0.6.0"])
   end
 end
 
