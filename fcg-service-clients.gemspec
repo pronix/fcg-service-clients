@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fcg-service-clients}
-  s.version = "0.0.6"
+  s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
     ".document",
      ".gitignore",
      "Gemfile",
-     "Gemfile.lock",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -78,7 +77,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, [">= 1.3"])
       s.add_runtime_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
       s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-      s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
       s.add_runtime_dependency(%q<bunny>, ["= 0.6.0"])
@@ -86,7 +84,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, [">= 1.3"])
       s.add_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
       s.add_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-      s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<activemodel>, [">= 3.0.0"])
       s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
       s.add_dependency(%q<bunny>, ["= 0.6.0"])
@@ -95,7 +92,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, [">= 1.3"])
     s.add_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
     s.add_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-    s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<activemodel>, [">= 3.0.0"])
     s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
     s.add_dependency(%q<bunny>, ["= 0.6.0"])
