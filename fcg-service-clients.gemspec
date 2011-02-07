@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fcg-service-clients}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2011-01-23}
+  s.date = %q{2011-02-05}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -37,15 +37,18 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/models/city_summary.rb",
      "lib/fcg_service_clients/models/comment.rb",
      "lib/fcg_service_clients/models/event.rb",
+     "lib/fcg_service_clients/models/feed.rb",
      "lib/fcg_service_clients/models/geo.rb",
      "lib/fcg_service_clients/models/image.rb",
      "lib/fcg_service_clients/models/job_state.rb",
      "lib/fcg_service_clients/models/object_summary.rb",
      "lib/fcg_service_clients/models/party.rb",
+     "lib/fcg_service_clients/models/post.rb",
      "lib/fcg_service_clients/models/rating.rb",
      "lib/fcg_service_clients/models/rsvp.rb",
      "lib/fcg_service_clients/models/site.rb",
      "lib/fcg_service_clients/models/stat.rb",
+     "lib/fcg_service_clients/models/status.rb",
      "lib/fcg_service_clients/models/type_summary.rb",
      "lib/fcg_service_clients/models/user.rb",
      "lib/fcg_service_clients/models/user_object_summary.rb",
