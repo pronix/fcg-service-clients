@@ -1,13 +1,16 @@
 require 'rubygems'
-require 'active_model'
-require 'active_support'
-require 'typhoeus'
-require 'msgpack'
-require 'hashie'
-require 'facets'
-require 'bunny'
-require 'fcg-service-ext'
-require 'fcg-core-ext'
+require "bundler/setup"
+Bundler.setup
+Bundler.require(:default)
+# require 'active_model'
+# require 'active_support'
+# require 'typhoeus'
+# require 'msgpack'
+# require 'hashie'
+# require 'facets'
+# require 'bunny'
+# require 'fcg-service-ext'
+# require 'fcg-core-ext'
 include Hashie::HashExtensions
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))

@@ -13,7 +13,7 @@ begin
     gem.authors         = ["Samuel O. Obukwelu"]
     gem.add_development_dependency "rspec", ">= 1.3"
     gem.add_dependency 'fcg-core-ext', ">= 0.0.5"
-    gem.add_dependency 'fcg-service-ext', ">= 0.0.10"
+    gem.add_dependency 'fcg-service-ext', ">= 0.0.16"
     gem.add_dependency 'activesupport', ">= 3.0.0"
     gem.add_dependency 'activemodel', ">= 3.0.0"
     gem.add_dependency 'typhoeus', ">= 0.1.31"
