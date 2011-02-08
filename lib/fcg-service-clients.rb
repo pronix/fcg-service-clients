@@ -1,4 +1,7 @@
-require 'rubygems'
+require 'rubygems' 
+# require "bundler/setup"
+# Bundler.setup
+# Bundler.require(:default)
 require 'active_model'
 require 'active_support'
 require 'typhoeus'
