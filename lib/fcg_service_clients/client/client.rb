@@ -52,7 +52,7 @@ module FCG
               result[key] = value
             end
             result
-          end unless params[:conditions].nil?
+          end unless params[:conditions].nil? || params[:conditions].empty?
 
           request = Typhoeus::Request.new(
             "#{service_url}/count", :params => params,

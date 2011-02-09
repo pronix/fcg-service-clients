@@ -79,7 +79,7 @@ module FCG
         end
         
         def date
-          Date.parse(self.raw_attributes[:date])
+          Date.parse(self.raw_attributes[:date]) rescue nil
         end
 
         def flyer_album
@@ -106,11 +106,11 @@ module FCG
         end
 
         def end_time_utc
-          Time.parse(self.raw_attributes[:end_time_utc])
+          Time.parse(self.raw_attributes[:end_time_utc]) rescue nil
         end
 
         def start_time_utc
-          Time.parse(self.raw_attributes[:start_time_utc])
+          Time.parse(self.raw_attributes[:start_time_utc]) rescue nil
         end
       end
 
