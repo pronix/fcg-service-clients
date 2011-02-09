@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/models/party.rb",
      "lib/fcg_service_clients/models/post.rb",
      "lib/fcg_service_clients/models/rating.rb",
+     "lib/fcg_service_clients/models/region.rb",
      "lib/fcg_service_clients/models/rsvp.rb",
      "lib/fcg_service_clients/models/site.rb",
      "lib/fcg_service_clients/models/stat.rb",
