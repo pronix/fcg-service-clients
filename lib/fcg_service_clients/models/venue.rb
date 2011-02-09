@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Venue
-      ATTRIBUTES = [:active, :address, :city, :citycode, :country, :created_at, :lat, :lng, :name, :state, :time_zone, :updated_at, :user_id, :zipcode]
+      ATTRIBUTES = [:active, :address, :city, :region, :country, :created_at, :lat, :lng, :name, :state, :time_zone, :updated_at, :user_id, :zipcode]
 
       module ClassMethods
         def autocomplete(term, *args)

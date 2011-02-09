@@ -21,7 +21,7 @@ module FCG
       
         def top_views(rankable_key, model, time)
           # /rank/:verb/:rankable_key/:model/:time
-          # /rank/view/citycode:nyc/image/20100926 returns top images limited to nyc from Sept 26, 2010
+          # /rank/view/region:nyc/image/20100926 returns top images limited to nyc from Sept 26, 2010
           verb = "view"
           request = Typhoeus::Request.new(
             "#{self.service_url}/rank/#{verb}/#{rankable_key}/#{model}/#{time}",

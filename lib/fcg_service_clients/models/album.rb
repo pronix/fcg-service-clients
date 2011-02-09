@@ -48,7 +48,7 @@ module FCG
           album
         end
         
-        def find_by_citycode(citycode, *args)
+        def find_by_region(region, *args)
           opts = args.extract_options!
           params = {
             :state => "past", # past or between
@@ -58,7 +58,7 @@ module FCG
             :skip => 0
           }.merge(opts)
           request = Typhoeus::Request.new(
-            "#{service_url}/citycode/#{citycode}", :params => params,
+            "#{service_url}/region/#{region}", :params => params,
             :method => :get)
           request.on_complete do |response|
             response
