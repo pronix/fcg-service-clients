@@ -24,7 +24,6 @@ module FCG
           handle_service_response request.handled_response
         end
       end
-      end
 
       module InstanceMethods
         
