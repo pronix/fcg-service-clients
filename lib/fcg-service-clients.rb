@@ -24,15 +24,3 @@ Dir[
 ].each do |file|
   require file
 end
-
-__END__
-class User
-  include FCG::Client::User
-  setup_service :hydra => FCG::Client::Base::HYDRA, :host => "http://0.0.0.0:5678", :version => "v1"
-end
- 
-1.upto(3).each do |i|
-  puts "Pass ##{i}"
-  t = User.find("4cbeaf2842572108ed000001")
-  puts t.id
-end
