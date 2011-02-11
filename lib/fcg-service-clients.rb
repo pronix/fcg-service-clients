@@ -1,7 +1,4 @@
 require 'rubygems' 
-# require "bundler/setup"
-# Bundler.setup
-# Bundler.require(:default)
 require 'active_model'
 require 'active_support'
 require 'typhoeus'
@@ -12,6 +9,8 @@ require 'bunny'
 require 'fcg-service-ext'
 require 'fcg-core-ext'
 include Hashie::HashExtensions
+
+# ActiveModel::Base.include_root_in_json
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 

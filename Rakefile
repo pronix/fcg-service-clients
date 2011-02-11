@@ -14,9 +14,9 @@ begin
     gem.add_development_dependency "rspec", ">= 1.3"
     gem.add_dependency 'fcg-core-ext', ">= 0.0.5"
     gem.add_dependency 'fcg-service-ext', ">= 0.0.16"
-    gem.add_dependency 'activemodel', ">= 3.0.0"
+    gem.add_dependency 'activemodel', ">= 3.0.4"
     gem.add_dependency 'typhoeus', ">= 0.1.31"
-    gem.add_dependency 'bunny', "0.6.0"
+    gem.add_dependency 'bunny', ">= 0.6.0"
     
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.version = FCG::Client::VERSION

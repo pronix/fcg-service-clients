@@ -79,24 +79,24 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, [">= 1.3"])
       s.add_runtime_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
       s.add_runtime_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-      s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
+      s.add_runtime_dependency(%q<activemodel>, [">= 3.0.4"])
       s.add_runtime_dependency(%q<typhoeus>, [">= 0.1.31"])
-      s.add_runtime_dependency(%q<bunny>, ["= 0.6.0"])
+      s.add_runtime_dependency(%q<bunny>, [">= 0.6.0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.3"])
       s.add_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
       s.add_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-      s.add_dependency(%q<activemodel>, [">= 3.0.0"])
+      s.add_dependency(%q<activemodel>, [">= 3.0.4"])
       s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
-      s.add_dependency(%q<bunny>, ["= 0.6.0"])
+      s.add_dependency(%q<bunny>, [">= 0.6.0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.3"])
     s.add_dependency(%q<fcg-core-ext>, [">= 0.0.5"])
     s.add_dependency(%q<fcg-service-ext>, [">= 0.0.16"])
-    s.add_dependency(%q<activemodel>, [">= 3.0.0"])
+    s.add_dependency(%q<activemodel>, [">= 3.0.4"])
     s.add_dependency(%q<typhoeus>, [">= 0.1.31"])
-    s.add_dependency(%q<bunny>, ["= 0.6.0"])
+    s.add_dependency(%q<bunny>, [">= 0.6.0"])
   end
 end
 

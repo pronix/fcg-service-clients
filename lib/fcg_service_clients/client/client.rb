@@ -186,7 +186,7 @@ module FCG
         receiver.send :include, InstanceMethods
         receiver.send :include, ClassLevelInheritableAttributes
         receiver.cattr_inheritable :host, :hydra, :model, :version, :async_client
-        receiver.include_root_in_json = true
+        receiver.include_root_in_json = false if receiver.respond_to? :include_root_in_json
         attr_accessor :attributes_original, :raw_attributes
       end
     end
