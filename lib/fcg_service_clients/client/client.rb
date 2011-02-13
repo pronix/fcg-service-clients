@@ -40,6 +40,36 @@ module FCG
           handle_service_response request.handled_response
         end
 
+        def regex(*args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :skip => 0
+          }.merge(opts)
+
+          params[:conditions] = params[:conditions].inject({}) do |result, (key, value)|
+            case value
+            when Range
+              result["#{key}.gte".to_sym], result["#{key}.lte".to_sym] = value.first, value.last
+            else
+              result[key] = value
+            end
+            result
+          end unless params[:conditions].nil?
+
+          request = Typhoeus::Request.new(
+            "#{service_url}/regex", :params => params,
+            :method => :get)
+          request.on_complete do |response|
+            response
+          end
+
+          self.hydra.queue(request)
+          self.hydra.run
+
+          handle_service_response request.handled_response
+        end
+
         def count(*args)
           opts = args.extract_options!
           params = opts
