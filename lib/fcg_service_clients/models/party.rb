@@ -39,10 +39,10 @@ module FCG
           event = ::Event.create_based_on_party(self) if current_event.nil? 
         end
 
-        # def venue_id=(val)
-        #   v = ::Venue.find(val.to_s)
-        #   self.venue = v.to_hash
-        # end
+        def venue_id=(val)
+          v = ::Venue.find(val.to_s)
+          self.venue = v.to_hash
+        end
         
         def venue_id
           venue["id"] rescue nil

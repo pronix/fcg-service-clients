@@ -1,5 +1,5 @@
 module FCG
   module Client
-    VERSION = '0.0.14'
+    VERSION = '0.0.16'
   end
 end
