@@ -173,6 +173,13 @@ module FCG
           end
         end
 
+        def destroy
+          _run_delete_callbacks do
+            @_destroyed = true
+            self.class.delete(id) unless new_record?
+          end
+        end
+
         def reload
           unless new_record?
             self.class.find(self.id)
