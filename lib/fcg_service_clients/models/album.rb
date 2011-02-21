@@ -104,15 +104,25 @@ module FCG
         end
         
         def record_class
-          record.split(/:/).first
+          @record_class ||= ("::" + "#{record.split(/:/).first}".classify).constantize
         end
         
         def record_id
-          record.split(/:/).last
+          @record_id ||= record.split(/:/).last
         end
         
         def record_instantiated
-          @record_instantiated = record_class.classify.constantize.find(record_id) unless record_id.nil? or record_class.nil?
+          @record_instantiated ||= record_class.find(record_id) unless record_id.nil? or record_class.nil?
+        end
+        
+        def save_id_to_record
+          column_name = "#{image_type}_album_id".to_sym
+          if record_instantiated.respond_to? column_name
+            record_instantiated.send column_name, self.id
+            record_instantiated.save
+          else
+            false
+          end
         end
       end
 

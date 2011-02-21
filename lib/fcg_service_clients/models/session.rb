@@ -6,7 +6,7 @@ module FCG
       module ClassMethods
 
         def find_by_sid(sid)
-          request = Typhoeus::Request.new("#{ service_url}/find_by_sid/#{sid}",:method => :get)
+          request = Typhoeus::Request.new("#{service_url}/find_by_sid/#{sid}",:method => :get)
           request.on_complete do |response|
             response
           end
@@ -22,7 +22,7 @@ module FCG
           find_by_sid(sid)
         end
 
-        def set(sid, new_session, expiry = Time.now)
+        def set(sid, new_session, expiry = Time.now.utc)
           update(find_by_sid(sid), :data => new_session, :expiry => expiry)
         end
 
@@ -33,7 +33,6 @@ module FCG
         def delete(sid)
           find_by_sid(sid).delete
         end
-
       end
 
       module InstanceMethods
