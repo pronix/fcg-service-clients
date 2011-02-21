@@ -110,6 +110,10 @@ module FCG
         def record_id
           record.split(/:/).last
         end
+        
+        def record_instantiated
+          @record_instantiated = record_class.classify.constantize.find(record_id) unless record_id.nil? or record_class.nil?
+        end
       end
 
       def self.included(receiver)
