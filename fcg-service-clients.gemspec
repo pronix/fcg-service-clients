@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Samuel O. Obukwelu"]
-  s.date = %q{2011-02-21}
+  s.date = %q{2011-02-23}
   s.description = %q{Clients/libraries that are used under site models to interact with FCG services}
   s.email = %q{sam@fcgmedia.com}
   s.extra_rdoc_files = [
@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/models/rating.rb",
      "lib/fcg_service_clients/models/region.rb",
      "lib/fcg_service_clients/models/rsvp.rb",
+     "lib/fcg_service_clients/models/session.rb",
      "lib/fcg_service_clients/models/site.rb",
      "lib/fcg_service_clients/models/stat.rb",
      "lib/fcg_service_clients/models/status.rb",

@@ -81,30 +81,27 @@ module FCG
         def date
           Date.parse(self.raw_attributes[:date]) rescue nil
         end
-
+        
         def flyer_album
-          ::Album.find flyer_album_id unless flyer_album_id.nil?
+          @flyer_album ||= ::Album.find flyer_album_id unless flyer_album_id.nil?
         end
         
         def photo_album
-          ::Album.find photo_album_id unless photo_album_id.nil?
+          @photo_album ||= ::Album.find photo_album_id unless photo_album_id.nil?
         end
         
         def photo_album_title
           txt = date.short_date + ": #{title_and_venue_name}"
-          txt << " (#{photo_album[:title]})" if !photo_album.nil? and photo_album.has_key? :title
+          txt << " (#{photo_album.title})" if !photo_album.nil? and photo_album.respond_to? :title
           txt
         end
-
-        def flyers?
-          !flyers.empty?
+        
+        def flyer_album_title
+          txt = date.short_date + ": #{title_and_venue_name}"
+          txt << " (#{flyer_album.title})" if !flyer_album.nil? and flyer_album.respond_to? :title
+          txt
         end
-
-        def flyers
-          # TODO: create flyer model
-          []
-        end
-
+        
         def end_time_utc
           Time.parse(self.raw_attributes[:end_time_utc]) rescue nil
         end

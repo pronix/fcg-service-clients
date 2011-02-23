@@ -1,7 +1,7 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :polled, :result, :site, :state, :time_hash, :updated]
+      ATTRIBUTES = [:created, :crowd_cloud_id, :polled, :result, :state, :crowd_cloud_hash, :updated]
 
       module ClassMethods
         def update!(values_as_hash)
@@ -25,8 +25,7 @@ module FCG
 
       module InstanceMethods
         def complete?
-          return true if self.state == "completed"
-          false
+          self.state == "completed"
         end
 
         def completed!

@@ -116,9 +116,9 @@ module FCG
         end
         
         def save_id_to_record
-          column_name = "#{image_type}_album_id".to_sym
+          column_name = "#{image_type.singularize}_album_id".to_sym
           if record_instantiated.respond_to? column_name
-            record_instantiated.send column_name, self.id
+            record_instantiated.send "#{column_name}=", self.id
             record_instantiated.save
           else
             false
