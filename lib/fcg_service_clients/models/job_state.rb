@@ -1,26 +1,9 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :crowd_cloud_id, :polled, :result, :state, :crowd_cloud_hash, :updated]
+      ATTRIBUTES = [:created, :crowd_cloud_hash, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated]
 
       module ClassMethods
-        def update!(values_as_hash)
-          js = self[values_as_hash["callback"]["job_state_id"]]
-          js.error_message = values_as_hash["errors"].to_json unless values_as_hash["errors"].empty?
-          js.result = values_as_hash["callback"].to_json
-          if values_as_hash["callback"].has_key? "suffix"
-            # js.time_hash = "{}" if js.time_hash.nil? or js.time_hash == ""
-            js.time_hash = JSON.parse(js.time_hash).merge({
-              values_as_hash["callback"]["suffix"] => values_as_hash["time"]
-            }).to_json
-          else
-            js.time_hash = {
-              "default" => values_as_hash["time"]
-            }.to_json
-          end
-          js.state = "completed" if js.complete?
-          js.save
-        end
       end
 
       module InstanceMethods
@@ -42,8 +25,10 @@ module FCG
         
         def as_json(*args)
           {
-            :time_hash => self.time_hash,
-            # :error_message => JSON.parse(self.error_message),
+            :job_hash => self.job_hash,
+            :crowd_cloud_id => self.crowd_cloud_id,
+            :crowd_cloud_hash => self.crowd_cloud_hash,
+            :job_hash => self.job_hash,
             :state => self.state,
             :type => self.type,
             :polled => self.polled
@@ -55,7 +40,7 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
-        receiver.validates_presence_of :type, :site
+        receiver.validates_presence_of :type, :crowd_cloud_id
       end
     end
   end
