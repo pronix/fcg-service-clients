@@ -51,7 +51,7 @@ module FCG
         def find_by_region(region, *args)
           opts = args.extract_options!
           params = {
-            :state => "past", # past or between
+            #:state => "past", # past or between
             :time => Time.now.utc,
             :limit => 10,
             :active => true,
