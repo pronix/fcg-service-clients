@@ -4,10 +4,11 @@ module FCG
       ATTRIBUTES = [:created_at, :record, :score, :updated_at, :user_id]
 
       module ClassMethods
-        def by_record(record_id, *args)
+        def by_record(record, *args)
+          record = "#{record.class}:#{record.id}" unless record.is_a?(String)
           params = args.extract_options!
           request = Typhoeus::Request.new(
-            "#{service_url}/record/#{record_id}", :params => params,
+            "#{service_url}/record/#{record}", :params => params,
             :method => :get)
           request.on_complete do |response|
             response
@@ -15,7 +16,6 @@ module FCG
 
           self.hydra.queue(request)
           self.hydra.run
-
 
           handle_service_response_for_by_record request.handled_response
         end
@@ -37,7 +37,6 @@ module FCG
       end
 
       module InstanceMethods
-        
       end
 
       def self.included(receiver)

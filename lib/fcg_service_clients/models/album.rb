@@ -103,6 +103,15 @@ module FCG
           "#{title} at #{location_name}"
         end
         
+        def uploadable_by_user?(*args)
+          case record_class.to_s
+          when "Event", "User"
+            record_instantiated.uploadable_by_user?(*args)
+          else
+            raise "this model does not support uploadable_by_user: #{record_class}"
+          end
+        end
+        
         def record_class
           @record_class ||= ("::" + "#{record.split(/:/).first}".classify).constantize
         end

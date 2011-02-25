@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Image
-      ATTRIBUTES = [:album_id, :caption, :created_at, :sizes, :types, :updated_at, :urls, :user_id]
+      ATTRIBUTES = [:album_id, :caption, :created_at, :updated_at, :urls, :user_id]
 
       module ClassMethods
         def find_by_ids(ids)
@@ -29,11 +29,10 @@ module FCG
       end
 
       def self.included(receiver)
-
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
-        receiver.validates_presence_of :user_id, :types, :urls, :sizes, :album_id
+        receiver.validates_presence_of :user_id, :urls, :album_id
       end
     end
   end

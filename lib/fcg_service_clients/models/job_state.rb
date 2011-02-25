@@ -1,7 +1,7 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :crowd_cloud_hash, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated]
+      ATTRIBUTES = [:created, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated]
 
       module ClassMethods
       end
@@ -27,7 +27,6 @@ module FCG
           {
             :job_hash => self.job_hash,
             :crowd_cloud_id => self.crowd_cloud_id,
-            :crowd_cloud_hash => self.crowd_cloud_hash,
             :job_hash => self.job_hash,
             :state => self.state,
             :type => self.type,
