@@ -8,7 +8,7 @@ module FCG
           record = "#{record.class}:#{record.id}" unless record.is_a?(String)
           params = args.extract_options!
           request = send_to_server(:method => :get, :path => "#{service_url}/record/#{record}", :params => params)
-          handle_service_response request.handled_response
+          handle_service_response_for_by_record request.handled_response
         end
 
         def handle_service_response_for_by_record(response)
