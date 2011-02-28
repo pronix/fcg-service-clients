@@ -10,16 +10,7 @@ module FCG
           else
             ids
           end
-          request = Typhoeus::Request.new(
-            "#{service_url}/by_ids", :params => { :ids => ids_as_comma_delimited_string},
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{service_url}/by_ids", :params => { :ids => ids_as_comma_delimited_string})
           handle_service_response request.handled_response
         end
       end

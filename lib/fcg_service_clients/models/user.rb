@@ -7,47 +7,17 @@ module FCG
 
       module ClassMethods
         def find_by_facebook_id(facebook_id)
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/find_by_facebook_id/#{facebook_id}",
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/find_by_facebook_id/#{facebook_id}")
           handle_service_response request.handled_response
         end
 
         def find_by_username(username)
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/find_by_username/#{username}",
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/find_by_username/#{username}")
           handle_service_response request.handled_response
         end
 
         def find_by_email(email)
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/find_by_email/#{email}",
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/find_by_email/#{email}")
           handle_service_response request.handled_response
         end
 

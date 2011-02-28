@@ -1,8 +1,6 @@
 module FCG
   module Client
-    module Base
-      HYDRA = Typhoeus::Hydra.new
-      
+    module Base      
       class FailedConnectionException < RuntimeError
       end
       
@@ -10,6 +8,10 @@ module FCG
       end
       
       module ClassMethods
+        def send_to_server(*args)
+          FCG::Service::Client.sender.send_to_server(*args)
+        end
+        
         def search(*args)
           opts = args.extract_options!
           params = {
@@ -26,17 +28,8 @@ module FCG
             end
             result
           end unless params[:conditions].nil?
-          
-          request = Typhoeus::Request.new(
-            "#{service_url}/search", :params => params,
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
 
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :params => params, :path => "#{service_url}/search")
           handle_service_response request.handled_response
         end
 
@@ -57,16 +50,7 @@ module FCG
             result
           end unless params[:conditions].nil?
 
-          request = Typhoeus::Request.new(
-            "#{service_url}/regex", :params => params,
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :params => params, :path => "#{service_url}/regex")
           handle_service_response request.handled_response
         end
 
@@ -83,17 +67,8 @@ module FCG
             end
             result
           end unless params[:conditions].nil? || params[:conditions].empty?
-
-          request = Typhoeus::Request.new(
-            "#{service_url}/count", :params => params,
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          
+          request = send_to_server(:method => :get, :params => params, :path => "#{service_url}/count")
           handle_service_response request.handled_response
         end
         
@@ -137,7 +112,7 @@ module FCG
         end
         
         def service_url
-          [ self.host, self.model].join("/")
+          "/" + self.model # [ self.host, self.model].join("/")
         end
         
         def serializable_hash(hash, *args)
@@ -217,6 +192,11 @@ module FCG
         receiver.send :include, ClassLevelInheritableAttributes
         receiver.cattr_inheritable :host, :hydra, :model, :version, :async_client
         receiver.include_root_in_json = false if receiver.respond_to? :include_root_in_json
+        receiver.setup_service(
+          :hydra => FCG::Service::Client.configuration.hydra, 
+          :host => FCG::Service::Client.configuration.host + ":" + FCG::Service::Client.configuration.port.to_s, 
+          :async_client => FCG::Service::Client.configuration.async_client
+        )
         attr_accessor :attributes_original, :raw_attributes
       end
     end

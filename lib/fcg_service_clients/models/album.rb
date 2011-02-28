@@ -57,16 +57,7 @@ module FCG
             :active => true,
             :skip => 0
           }.merge(opts)
-          request = Typhoeus::Request.new(
-            "#{service_url}/region/#{region}", :params => params,
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :params => params, :path => "#{service_url}/region/#{region}")
           handle_service_response request.handled_response
         end
       end

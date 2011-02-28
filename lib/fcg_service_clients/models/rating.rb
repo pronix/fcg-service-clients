@@ -7,17 +7,8 @@ module FCG
         def by_record(record, *args)
           record = "#{record.class}:#{record.id}" unless record.is_a?(String)
           params = args.extract_options!
-          request = Typhoeus::Request.new(
-            "#{service_url}/record/#{record}", :params => params,
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
-          handle_service_response_for_by_record request.handled_response
+          request = send_to_server(:method => :get, :path => "#{service_url}/record/#{record}", :params => params)
+          handle_service_response request.handled_response
         end
 
         def handle_service_response_for_by_record(response)

@@ -3,58 +3,22 @@ module FCG
     module Persistence
       module ClassMethods
         def create(record)
-          request = Typhoeus::Request.new(
-            service_url,
-            :method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]))
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-          
+          request = send_to_server(:method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]), :path => service_url)
           request.handled_response
         end
 
         def update(record)
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{record.id}",
-            :method => :put, :body => record.diff_as_msgpack)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-          
+          request = send_to_server(:method => :put, :body => record.diff_as_msgpack, :path => "#{service_url}/#{record.id}")
           request.handled_response
         end
 
         def find(id)
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{id}",
-            :method => :get)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{service_url}/#{id}")
           handle_service_response request.handled_response
         end
 
         def delete(id)
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{id}",
-            :method => :delete)
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :delete, :path => "#{service_url}/#{id}")
           handle_service_response request.handled_response
         end
 

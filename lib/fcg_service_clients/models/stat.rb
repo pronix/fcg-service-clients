@@ -5,35 +5,15 @@ module FCG
         def views(key, time)
           # "/:verb/:key/:time"
           verb = "view"
-          request = Typhoeus::Request.new(
-            "#{service_url}/#{verb}/#{key}/#{time}",
-            :method => :get)
-          
-          request.on_complete do |response|
-            handle_service_response(response)
-          end
-
-          hydra.queue(request)
-          hydra.run
-
-          request.handled_response
+          request = send_to_server(:method => :get, :path => "#{service_url}/#{verb}/#{key}/#{time}", :params => params)
+          handle_service_response request.handled_response
         end
       
         def top_views(rankable_key, model, time)
           # /rank/:verb/:rankable_key/:model/:time
           # /rank/view/region:nyc/image/20100926 returns top images limited to nyc from Sept 26, 2010
           verb = "view"
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/rank/#{verb}/#{rankable_key}/#{model}/#{time}",
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/rank/#{verb}/#{rankable_key}/#{model}/#{time}", :params => params)
           handle_service_response request.handled_response
         end
         
@@ -44,17 +24,7 @@ module FCG
             :skip => 0
           }.merge(opts)
           
-          request = Typhoeus::Request.new(
-            "#{self.service_url}/most_visited", :params => params,
-            :method => :get)
-
-          request.on_complete do |response|
-            response
-          end
-
-          self.hydra.queue(request)
-          self.hydra.run
-
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/most_visited", :params => params)
           handle_service_response request.handled_response
         end
       end
