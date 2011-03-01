@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Comment
-      ATTRIBUTES = [:site, :record, :body, :body_as_html, :deleted, :flagged_by, :depth, :path, :parent_id, :displayed_name, :user_id]
+      ATTRIBUTES = [:site, :record, :body, :body_as_html, :deleted, :flagged_by, :depth, :path, :parent_id, :displayed_name, :user_id].freeze
 
       module ClassMethods
 

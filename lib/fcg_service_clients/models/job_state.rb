@@ -1,7 +1,7 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated]
+      ATTRIBUTES = [:created, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated].freeze
 
       module ClassMethods
       end

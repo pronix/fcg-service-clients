@@ -8,7 +8,7 @@ module FCG
                     :week, :week_updated,
                     :month, :month_updated,
                     :year, :year_updated,
-                    :all]
+                    :all].freeze
 
       module ClassMethods
         def get_summaries(type, order)

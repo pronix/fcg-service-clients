@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Rsvp
-      ATTRIBUTES = [:bottle_service, :email, :event_id, :message, :name, :number_of_guests, :occassion, :phone, :user_id]
+      ATTRIBUTES = [:bottle_service, :email, :event_id, :message, :name, :number_of_guests, :occassion, :phone, :user_id].freeze
       
       module ClassMethods
         

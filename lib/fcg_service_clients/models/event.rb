@@ -2,7 +2,7 @@ module FCG
   module Client
     module Event
       ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :description, :dj, :end_time, :end_time_utc, :flyer_album_id, :host, :length_in_hours, 
-        :music, :party_id, :photo_album_id, :posted_to_twitter_at, :start_time, :start_time_utc, :title, :updated_at, :user_id, :venue, :venue_id]
+        :music, :party_id, :photo_album_id, :posted_to_twitter_at, :recur, :start_time, :start_time_utc, :title, :updated_at, :user_id, :venue, :venue_id].freeze
 
       module ClassMethods
         def upcoming_the_next_7_days

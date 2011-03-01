@@ -3,7 +3,7 @@ module FCG
     module User
       ATTRIBUTES = [:bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, :facebook_id, :facebook_proxy_email, :facebook_session, 
         :first_name, :flags, :flyers, :last_name, :last_visited_at, :location, :password, :photo_album_id, :photo_count, :posted_party_at, 
-        :profile_image, :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, :twitter_username, :updated_at, :username, :web]
+        :profile_image, :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, :twitter_username, :updated_at, :username, :web].freeze
 
       module ClassMethods
         def find_by_facebook_id(facebook_id)

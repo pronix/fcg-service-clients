@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Rating
-      ATTRIBUTES = [:created_at, :record, :score, :updated_at, :user_id]
+      ATTRIBUTES = [:created_at, :record, :score, :updated_at, :user_id].freeze
 
       module ClassMethods
         def by_record(record, *args)

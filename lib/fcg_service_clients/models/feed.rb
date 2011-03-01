@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Feed
-      ATTRIBUTES = [:created_at, :record, :site, :title, :updated_at, :user_id] 
+      ATTRIBUTES = [:created_at, :record, :site, :title, :updated_at, :user_id].freeze
 
       module ClassMethods
         

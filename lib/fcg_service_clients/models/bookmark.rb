@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Bookmark
-      ATTRIBUTES = [:user_id, :title, :path, :bookmark_type]
+      ATTRIBUTES = [:user_id, :title, :path, :bookmark_type].freeze
 
       module ClassMethods
 

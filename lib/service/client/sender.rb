@@ -7,9 +7,9 @@ module FCG
                        Errno::EINVAL,
                        Errno::ECONNRESET,
                        EOFError,
-                       Net::HTTPBadResponse,
-                       Net::HTTPHeaderSyntaxError,
-                       Net::ProtocolError,
+                       # Net::HTTPBadResponse,
+                       # Net::HTTPHeaderSyntaxError,
+                       # Net::ProtocolError,
                        Errno::ECONNREFUSED].freeze
 
         def initialize(options = {})
@@ -22,11 +22,15 @@ module FCG
         # Sends the notice data off to Hoptoad for processing.
         def send_to_server(*args)
           opts = args.extract_options!
-          opts[:headers] = {} unless opts[:headers].respond_to? :merge
+          opts[:headers] = {} unless opts[:headers].is_a?(Hash)
+          opts[:params] = {} unless opts[:params].is_a?(Hash)
+          params = {
+           :api_key => api_key
+          }.merge(opts[:params])
           request = Typhoeus::Request.new(url(opts[:path]), 
-            :params  => opts[:params],
+            :params  => params,
             :timeout => http_read_timeout * 1000, # milliseconds
-            :headers => {:api_key => api_key }.merge(opts[:headers]),
+            :headers => opts[:headers],
             :body => opts[:body],
             :method  => opts[:method])
             

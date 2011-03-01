@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Region
-      ATTRIBUTES = [:active, :country, :created_at, :full_name, :short_name, :tags, :updated_at, :zipcodes]
+      ATTRIBUTES = [:active, :country, :created_at, :full_name, :short_name, :tags, :updated_at, :zipcodes].freeze
 
       module ClassMethods
         def find_by_site(site, *args)

@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Activity
-      ATTRIBUTES = [:user_id, :created_at, :extra, :object_type, :object_id, :site, :target, :title, :verb, :page, :city, :was_summarized]
+      ATTRIBUTES = [:user_id, :created_at, :extra, :object_type, :object_id, :site, :target, :title, :verb, :page, :city, :was_summarized].freeze
 
       module ClassMethods
         

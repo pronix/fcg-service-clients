@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Image
-      ATTRIBUTES = [:album_id, :caption, :created_at, :updated_at, :urls, :user_id]
+      ATTRIBUTES = [:album_id, :caption, :created_at, :updated_at, :urls, :user_id].freeze
 
       module ClassMethods
         def find_by_ids(ids)

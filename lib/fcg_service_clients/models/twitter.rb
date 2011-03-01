@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Twitter
-      ATTRIBUTES = [:id]
+      ATTRIBUTES = [:id].freeze
 
       module ClassMethods
         

@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Site
-      ATTRIBUTES = [:url, :name, :extra, :cities, :active_cities_sorted]
+      ATTRIBUTES = [:url, :name, :extra, :cities, :active_cities_sorted].freeze
 
       module ClassMethods
 

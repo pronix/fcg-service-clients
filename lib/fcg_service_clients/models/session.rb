@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Session
-      ATTRIBUTES = [:id, :session_id, :data, :expiry, :created_at]
+      ATTRIBUTES = [:id, :session_id, :data, :expiry, :created_at].freeze
 
       module ClassMethods
 

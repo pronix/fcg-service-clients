@@ -1,7 +1,7 @@
 module FCG
   module Client
     module Geo
-      ATTRIBUTES = [:country, :zipcode, :packed, :msa, :us_state, :us_areacode]
+      ATTRIBUTES = [:country, :zipcode, :packed, :msa, :us_state, :us_areacode].freeze
 
       module ClassMethods
 

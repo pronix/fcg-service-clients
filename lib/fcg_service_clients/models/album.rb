@@ -2,7 +2,7 @@ module FCG
   module Client
     module Album
       ATTRIBUTES = [:active, :comments_allowed, :created_at, :date, :image_type, :location_name, :location_hash, :owner_image_count, :owner_images, :owner_images_order, :record, 
-        :summary, :title, :total_image_count, :updated_at, :user_id, :user_submitted_image_count, :user_submitted_images, :user_submitted_order]
+        :summary, :title, :total_image_count, :updated_at, :user_id, :user_submitted_image_count, :user_submitted_images, :user_submitted_order].freeze
 
       module ClassMethods
         def find_or_create(*args)
