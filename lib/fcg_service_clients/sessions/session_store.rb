@@ -221,7 +221,7 @@ module Rack
       module FCG
         def self.connect(server)
           require 'fcg_service_clients/sessions/session'
-          FCG::Models::Session
+          ::FCG::Models::Session
         end
       end
     end
