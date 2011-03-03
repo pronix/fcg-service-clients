@@ -1,7 +1,7 @@
 module FCG
   module Client
     module JobState
-      ATTRIBUTES = [:created, :crowd_cloud_id, :job_hash, :polled, :result, :state, :site, :updated].freeze
+      ATTRIBUTES = [:created, :cloud_crowd_id, :job_hash, :polled, :result, :state, :site, :updated].freeze
 
       module ClassMethods
       end
@@ -26,7 +26,7 @@ module FCG
         def as_json(*args)
           {
             :job_hash => self.job_hash,
-            :crowd_cloud_id => self.crowd_cloud_id,
+            :cloud_crowd_id => self.cloud_crowd_id,
             :job_hash => self.job_hash,
             :state => self.state,
             :type => self.type,
@@ -39,7 +39,7 @@ module FCG
         receiver.extend         ClassMethods
         receiver.send :include, FCG::Client::Persistence
         receiver.send :include, InstanceMethods
-        receiver.validates_presence_of :type, :crowd_cloud_id
+        receiver.validates_presence_of :type, :cloud_crowd_id
       end
     end
   end
