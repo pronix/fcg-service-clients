@@ -4,7 +4,6 @@ module FCG
       ATTRIBUTES = [:id, :session_id, :data, :expiry, :created_at].freeze
 
       module ClassMethods
-
         def find_by_sid(sid)
           request = send_to_server(:method => :get, :path => "#{service_url}/find_by_sid/#{sid}")
           handle_service_response request.handled_response
