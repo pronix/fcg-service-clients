@@ -37,6 +37,7 @@ module Rack
       :backend => "FCG",
       :namespace => 'fcg:session',
       :server => 'localhost:11211',
+      :expire_after => 2*60*60,
       #:secret => "S9vtS#wPFP'xX=AcLi-B,I#JEjh5h(~RgmZ<XXsi'Ufac<$x8q%._owOtJ>A7'D",
       # We want to extract session id from request parameters.
       :cookie_only => false,
@@ -175,7 +176,7 @@ module Rack
             if collision = @pool.get(sid) and collision.is_a? Hash
               raise "Session collision on '#{sid.inspect}'"
             else
-              @pool.add(sid,session)
+              @pool.add(sid,session,Time.now + options[:expire_after])
             end
           end
           [sid, session]
@@ -221,7 +222,7 @@ module Rack
       module FCG
         def self.connect(server)
           require 'fcg_service_clients/sessions/session'
-          ::FCG::Models::Session
+          ::Session
         end
       end
     end
