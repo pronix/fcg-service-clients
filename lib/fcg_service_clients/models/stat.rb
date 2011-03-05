@@ -2,10 +2,9 @@ module FCG
   module Client
     module Stat
       module ClassMethods
-        def views(key, time)
-          # "/:verb/:key/:time"
+        def views(key)
           verb = "view"
-          request = send_to_server(:method => :get, :path => "#{service_url}/#{verb}/#{key}/#{time}", :params => params)
+          request = send_to_server(:method => :get, :path => "#{service_url}/#{verb}/#{key}", :params => params)
           handle_service_response request.handled_response
         end
       
@@ -25,6 +24,17 @@ module FCG
           }.merge(opts)
           
           request = send_to_server(:method => :get, :path => "#{self.service_url}/most_visited", :params => params)
+          handle_service_response request.handled_response
+        end
+
+        def top_albums(*args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :skip => 0
+          }.merge(opts)
+
+          request = send_to_server(:method => :get, :path => "#{self.service_url}/top_albums", :params => params)
           handle_service_response request.handled_response
         end
       end
