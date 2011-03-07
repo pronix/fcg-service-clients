@@ -11,7 +11,7 @@ module FCG
           nil
         end
 
-        # This is modelled after hash-like stores - Memcache etc
+        # This is modeled after hash-like stores - Memcache etc
         def get(sid)
           find_by_sid(sid)
         end
@@ -27,10 +27,9 @@ module FCG
         end
 
         def add(sid, session, expiry = Time.now.utc)
+          [sid, session, expiry].each{|v| puts "v:#{v.inspect}" }
           create(:session_id => sid, :data => session, :expiry => expiry)
         end
-
-
       end
 
       module InstanceMethods
