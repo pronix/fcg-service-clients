@@ -1,6 +1,6 @@
 module FCG
   module Client
-    module Activity
+    module Follower
       ATTRIBUTES = [:follower_id, :leader_id, :approved, :created_at, :updated_at].freeze
 
       module ClassMethods
