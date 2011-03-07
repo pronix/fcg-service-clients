@@ -3,7 +3,7 @@ module FCG
     module User
       ATTRIBUTES = [:bio, :created_at, :crypted_password, :date_of_birth, :deleted_at, :email, :facebook_id, :facebook_proxy_email, :facebook_session, 
         :first_name, :flags, :flyers, :last_name, :last_visited_at, :location, :password, :photo_album_id, :photo_count, :posted_party_at, 
-        :profile_image, :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, :twitter_username, :updated_at, :username, :web].freeze
+        :profile_image, :salt, :sex, :site_specific_settings, :token_expire_at, :token_id, :tokens_expire_at, :twitter_username, :updated_at, :username, :web, :leader_of, :total_followers].freeze
 
       module ClassMethods
         def find_by_facebook_id(facebook_id)
@@ -73,6 +73,31 @@ module FCG
           !self.uploaded_photos_at.nil? and self.uploaded_photos_at != ""
         end
 
+        def followers(*args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :skip => 0
+          }.merge(opts)
+          request = self.class.send_to_server(:method => :get, :path => "#{self.class.service_url}/#{self.id}/followers", :params => params)
+          self.class.handle_service_response request.handled_response
+        end
+
+        def followed(*args)
+          opts = args.extract_options!
+          params = {
+            :limit => 10,
+            :skip => 0
+          }.merge(opts)
+          request = self.class.send_to_server(:method => :get, :path => "#{self.class.service_url}/#{self.id}/leaders", :params => params)
+          self.class.handle_service_response request.handled_response
+        end
+
+        def unfollow(user)
+          request = self.class.send_to_server(:method => :get, :path => "#{self.class.service_url}/unfollow", :params =>{:follower_id => self.id, :leader_id => user.id})
+          self.class.handle_service_response request.handled_response
+        end
+
         def uploadable_by_user?(user)
           return true if user.id == self.id
         end
@@ -87,6 +112,7 @@ module FCG
             :profile_image  => self.profile_image
           }
         end
+
         # before_save   :encrypt_password, :set_city_state_using_us_zipcode
         # before_create :setup
 

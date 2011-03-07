@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
      "lib/fcg_service_clients/models/comment.rb",
      "lib/fcg_service_clients/models/event.rb",
      "lib/fcg_service_clients/models/feed.rb",
+     "lib/fcg_service_clients/models/follower.rb",
      "lib/fcg_service_clients/models/geo.rb",
      "lib/fcg_service_clients/models/image.rb",
      "lib/fcg_service_clients/models/job_state.rb",
