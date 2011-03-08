@@ -3,7 +3,7 @@ module FCG
     module Persistence
       module ClassMethods
         def create(record)
-          request = send_to_server(:method => :post, :body => record.to_msgpack(:except => [:id, :created_at, :updated_at]), :path => service_url)
+          request = send_to_server(:method => :post, :body => hash_to_msgpack(record.to_hash, :except => [:id, :created_at, :updated_at]), :path => service_url)
           request.handled_response
         end
 

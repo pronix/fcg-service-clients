@@ -27,9 +27,10 @@ module FCG
         end
 
         def add(sid, session, expiry = Time.now.utc)
-          [sid, session, expiry].each{|v| puts "v:#{v.inspect}" }
           create(:session_id => sid, :data => session, :expiry => expiry)
         end
+
+
       end
 
       module InstanceMethods
