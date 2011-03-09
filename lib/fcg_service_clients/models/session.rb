@@ -2,7 +2,6 @@ module FCG
   module Client
     module Session
       ATTRIBUTES = [:id, :session_id, :data, :expiry, :created_at].freeze
-
       module ClassMethods
         def find_by_sid(sid)
           request = send_to_server(:method => :get, :path => "#{service_url}/find_by_sid/#{sid}")
