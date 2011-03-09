@@ -4,8 +4,8 @@ This is the gem used by all FCG sites to interact with FSS (or FCG Service Serve
 
 == Setup
 
-To access FSS, you need to include this in the Gemfile:
-<tt>gem 'fcg-service-clients' </tt>
+To access FSS, you need to include this in the Gemfile
+> gem 'fcg-service-clients'
 
 If using Rails, add this to one of the earliest loading files. For example, in config/intializers/00_fcg.rb
 > begin
@@ -18,6 +18,6 @@ If using Rails, add this to one of the earliest loading files. For example, in c
 >   raise "make sure you have a valid api_key, host, and post for FSC aka FCG Service Client."
 > end
 
-=== Copyright
+== Copyright
 
 Copyright (c) 2011 First Clandestine Group, Inc. See LICENSE for details.
